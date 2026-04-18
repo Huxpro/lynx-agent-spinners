@@ -3,13 +3,15 @@
 54 terminal-style agent-like spinners for React Native & Expo. Lightweight, zero native dependencies — just `Text` and `setInterval`. No heavy UI threads
 <img width="1152" height="648" alt="expo-agent-spinners" src="https://github.com/user-attachments/assets/bb1ff42b-a3aa-4283-997d-b815b3080233" />
 
+Inspiration from https://github.com/vyfor/rattles
+
 ## Preview
 
 Braille, ASCII, arrow, and emoji spinners all in one place, ready to drop into any loading state, AI agent stream, or CLI-style UI.
 
 ## Installation
 
-You can copy the `src/components/spinners` directory to your project and use the spinners you need.
+You can copy any spinner you need from the `src/components/spinners` directory for use in your project.
 
 ## Usage
 
