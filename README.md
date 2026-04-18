@@ -1,6 +1,7 @@
 # expo-agent-spinners
 
 54 terminal-style agent-like spinners for React Native & Expo. Lightweight, zero native dependencies — just `Text` and `setInterval`. No heavy UI threads
+<img width="1152" height="648" alt="expo-agent-spinners" src="https://github.com/user-attachments/assets/bb1ff42b-a3aa-4283-997d-b815b3080233" />
 
 ## Preview
 
@@ -24,7 +25,7 @@ export default function Loading() {
 
 ### Container sizing
 
-Spinners render unicode characters whose pixel width depends on font rendering. To prevent layout overflow or shifting, **always wrap spinners in a fixed-size container**:
+Spinners render Unicode characters whose pixel width depends on font rendering. To prevent layout overflow or shifting, **always wrap spinners in a fixed-size container**:
 
 ```tsx
 // ✅ Recommended — fixed container keeps layout stable
