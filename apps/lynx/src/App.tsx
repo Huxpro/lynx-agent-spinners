@@ -1,58 +1,16 @@
-import { useCallback, useEffect, useState } from '@lynx-js/react'
+import { DotsSpinner } from '../../../src/lynx';
 
-import './App.css'
-import arrow from './assets/arrow.png'
-import lynxLogo from './assets/lynx-logo.png'
-import reactLynxLogo from './assets/react-logo.png'
-import { useFlappy } from './useFlappy.js'
+import './App.css';
 
 export function App() {
-  const [alterLogo, setAlterLogo] = useState(false)
-  const [logoY, jump] = useFlappy()
-
-  useEffect(() => {
-    console.info('Hello, ReactLynx')
-  }, [])
-
-  const onTap = useCallback(() => {
-    'background only'
-    setAlterLogo(prevAlterLogo => !prevAlterLogo)
-  }, [])
-
   return (
-    <view bindtap={jump}>
-      <view className='Background' />
-      <view className='App'>
-        <view className='Banner'>
-          <view
-            className='Logo'
-            style={{ transform: `translateY(${logoY}px)` }}
-            bindtap={onTap}
-          >
-            {alterLogo
-              ? <image src={reactLynxLogo} className='Logo--react' />
-              : <image src={lynxLogo} className='Logo--lynx' />}
-          </view>
-          <text className='Title'>React</text>
-          <text className='Subtitle'>on Lynx</text>
+    <page>
+      <view className="container">
+        <text className="title">Pilot: DotsSpinner</text>
+        <view className="spinnerArea">
+          <DotsSpinner size={32} color="#D3D3D3" />
         </view>
-        <view className='Content'>
-          <image src={arrow} className='Arrow' />
-          <text className='Description'>Tap the logo and have fun!</text>
-          <text className='Hint'>
-            Edit<text
-              style={{
-                fontStyle: 'italic',
-                color: 'rgba(255, 255, 255, 0.85)',
-              }}
-            >
-              {' src/App.tsx '}
-            </text>
-            to see updates!
-          </text>
-        </view>
-        <view style={{ flex: 1 }} />
       </view>
-    </view>
-  )
+    </page>
+  );
 }

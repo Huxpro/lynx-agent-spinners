@@ -10,6 +10,22 @@
     "moduleResolution": "Bundler",
 
     "noEmit": true,
+
+    "paths": {
+      "react": ["../node_modules/@lynx-js/react"],
+      "react/*": ["../node_modules/@lynx-js/react/*"],
+      "@lynx-js/react": ["../node_modules/@lynx-js/react"],
+      "@lynx-js/react/*": ["../node_modules/@lynx-js/react/*"],
+      "@lynx-js/react/jsx-runtime": ["../node_modules/@lynx-js/react/runtime/jsx-runtime"]
+    },
+    "baseUrl": "."
   },
-  "include": ["./**/*.ts", "./**/*.tsx"],
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "../../../src/data/**/*.ts",
+    "../../../src/hooks/**/*.ts",
+    "../../../src/lynx/**/*.ts",
+    "../../../src/lynx/**/*.tsx"
+  ],
 }
