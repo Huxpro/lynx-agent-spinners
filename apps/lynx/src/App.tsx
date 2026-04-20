@@ -79,7 +79,11 @@ export function App() {
           </view>
         </scroll-view>
 
-        <scroll-view className="content">
+        <scroll-view
+          className="content"
+          scroll-orientation="vertical"
+          scrollbar-enable={false}
+        >
           <view className="contentInner">
             {visibleCategories.map((cat) => (
               <CategorySection key={cat.key} entries={cat.entries} />
