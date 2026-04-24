@@ -1,8 +1,7 @@
 # Project Instructions
 
-Read `AGENTS.md` for project overview, general rules, and ralph-loop protocol.
+Read `AGENTS.md` for project overview and general rules.
 Read `docs/LYNX_PORT.md` for the Lynx port architecture, constraints, and implementation order.
-Read `tasks/prd-lynx-port.md` for the step-by-step PRD (10 user stories, US-001 → US-010).
 
 ## Key Constraints
 

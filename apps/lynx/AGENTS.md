@@ -11,13 +11,13 @@ Read docs below in advance to help you understand the library or frameworks this
 
 ## Commands
 
-- `npm run dev` - Start the dev server
+- `pnpm dev` - Start the dev server
 
-- `npm run build` - Build the app for production
+- `pnpm build` - Build the app for production
 
-- `npm run preview` - Preview the production build locally
+- `pnpm preview` - Preview the production build locally
 
-- `npm exec rspeedy inspect` - Inspect the Rspeedy config and Rspack config of the project.
+- `pnpm exec rspeedy inspect` - Inspect the Rspeedy config and Rspack config of the project.
 
 ## Related Docs
 

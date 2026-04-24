@@ -10,3 +10,5 @@ npm-debug.*
 *.orig.*
 web-build/
 .DS_Store
+package-lock.json
+pnpm-lock.yaml
