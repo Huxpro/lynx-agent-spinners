@@ -22,4 +22,10 @@ export default defineConfig({
       react: '@lynx-js/react',
     },
   },
+  // Emit both bundles: main.lynx.bundle (native runtimes via LynxExplorer)
+  // and main.web.bundle (renderable in a browser via @lynx-js/web-core).
+  environments: {
+    lynx: {},
+    web: {},
+  },
 })

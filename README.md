@@ -1,55 +1,174 @@
-# expo-agent-spinners
+# Lynx Agent Spinners
 
-54 terminal-style agent-like spinners for React Native & Expo. Lightweight, zero native dependencies — just `Text` and `setInterval`. No heavy UI threads
-<img width="1152" height="648" alt="expo-agent-spinners" src="https://github.com/user-attachments/assets/bb1ff42b-a3aa-4283-997d-b815b3080233" />
+> Originally an Expo / React Native library of 55 terminal-style agent spinners. Now also a **LynxJS** port — same 55 spinners, same animation logic, same frame arrays, running natively on iOS / Android / Web via [ReactLynx](https://lynxjs.org/next/react/introduction.md).
+>
+> **87% of the library code is shared** between the React Native and Lynx builds. Only the ~90-line renderer is forked. This repo is also a worked example of what we're calling a **"slopfork"**: porting a JS UI library to a new runtime by sharing maximally and forking only at the rendering boundary.
 
-Inspiration from https://github.com/vyfor/rattles
+[![status](https://img.shields.io/badge/state-shipped-22d3ee?style=flat-square)]() [![reuse](https://img.shields.io/badge/library%20code%20reuse-87%25-a78bfa?style=flat-square)]() [![runtimes](https://img.shields.io/badge/runtimes-RN%20%2B%20Lynx-ff5a5f?style=flat-square)]() [![spinners](https://img.shields.io/badge/spinners-55-fbbf24?style=flat-square)]()
 
-## Preview
+![Preview](./expo-agent-spinners.gif)
 
-Braille, ASCII, arrow, and emoji spinners all in one place, ready to drop into any loading state, AI agent stream, or CLI-style UI.
+---
 
-## Installation
+## What this repo is
 
-You can copy any spinner you need from the `src/components/spinners` directory for use in your project.
+| Path | What it is | Shared? |
+| --- | --- | --- |
+| `src/data/` | 55 pure-TS spinner definitions (`name`, `frames`, `interval`, `category`) | ✅ shared by both runtimes |
+| `src/hooks/useSpinnerFrame.ts` | The animation hook (imports `'react'`) | ✅ shared via build-time alias |
+| `src/components/spinners/` | React Native renderer + 55 named exports | RN-only |
+| `src/lynx/` | Lynx renderer + 55 named exports | Lynx-only |
+| `App.tsx` | Expo demo app | RN-only |
+| `apps/lynx/` | Lynx demo app (ReactLynx + Rspeedy) | Lynx-only |
+| `presentation/` | The hackathon deck + a live Lynx-for-Web embed | — |
+| `docs/LYNX_PORT.md` | Architecture: layers, decision log, risks, implementation order | — |
 
-## Usage
+The full architecture (and *why* every line is shared or forked) is documented in [`docs/LYNX_PORT.md`](./docs/LYNX_PORT.md) — read that for the engineering story.
 
-Import the component you need:
+---
+
+## Quick start — try it locally
+
+```bash
+pnpm install
+```
+
+There are three things you can run.
+
+### 1 · Expo demo (the original)
+
+The React Native demo app, runs on iOS / Android / Web via Expo.
+
+```bash
+pnpm expo:ios       # iOS simulator
+pnpm expo:android   # Android emulator
+pnpm expo:web       # browser (needs react-native-web; see Expo docs if missing)
+```
+
+### 2 · Lynx demo (the port)
+
+```bash
+pnpm lynx:dev       # rspeedy dev server with QR code for LynxExplorer
+pnpm lynx:build     # build main.lynx.bundle + main.web.bundle
+pnpm lynx:preview   # static preview of the built bundle
+```
+
+`pnpm lynx:dev` prints a QR code — scan it with [LynxExplorer](https://lynxjs.org/next/guide/start/quick-start.md) on a device or emulator to see the demo. The build emits **two** artifacts:
+
+- `apps/lynx/dist/main.lynx.bundle` — for native Lynx runtimes (iOS / Android / HarmonyOS)
+- `apps/lynx/dist/main.web.bundle` — for Lynx-for-Web (loadable in any browser)
+
+### 3 · Presentation deck (with a live Lynx-for-Web demo)
+
+```bash
+pnpm preso          # builds the lynx web bundle + serves on http://localhost:8090
+```
+
+The deck (`presentation/index.html`) is a 9-slide hackathon deck that opens with all 55 spinners animating live, then walks through the architecture, the fork, the code-reuse math, and the Harness Engineering techniques used during the port.
+
+Slide 3 embeds [`presentation/lynx-app/`](./presentation/lynx-app/) in an iframe — that page is the **actual** `main.web.bundle` rendered via `<lynx-view>` from `@lynx-js/web-core`. Same code path that ships to mobile, running in your browser.
+
+> **Note** — Lynx for Web uses `SharedArrayBuffer`, which requires the page to be cross-origin isolated (`COOP: same-origin` + `COEP: require-corp`). `pnpm preso` runs a small Python server (`presentation/serve.py`) that sets those headers. On GitHub Pages, a service-worker shim (`presentation/lynx-app/coi-serviceworker.js`) installs the headers on the fly.
+
+---
+
+## Architecture at a glance
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  LAYER 1 — Spinner data (src/data/)                         │
+│  55 pure-TS files. { name, frames, interval, category }     │
+│  Zero React. Zero platform imports. 100% shared.            │
+└─────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────────┐
+│  LAYER 2 — Animation hook (src/hooks/useSpinnerFrame.ts)    │
+│  10 lines. Imports from 'react'.                            │
+│  Rspeedy aliases 'react' → '@lynx-js/react' in Lynx build.  │
+│  One file, two runtimes.                                    │
+└─────────────────────────────────────────────────────────────┘
+                            │
+                  ┌─────────┴──────────┐
+                  ▼                    ▼
+   ┌──────────────────────┐  ┌──────────────────────┐
+   │ LAYER 3a — RN        │  │ LAYER 3b — Lynx      │
+   │ src/components/      │  │ src/lynx/Spinner.tsx │
+   │   spinners/          │  │ + index.tsx          │
+   │ <View>/<Text>,       │  │ <view>/<text>,       │
+   │ numeric styles       │  │ CSS-string styles    │
+   └──────────────────────┘  └──────────────────────┘
+```
+
+**The fork is intentional** — `<View>` vs `<view>`, numeric styles vs CSS strings, `style={[...]}` arrays vs flat `className`. These aren't bridgeable via aliasing. They require different JSX *and* different style value formats. So we fork — but only there.
+
+[Full architecture doc with decision log →](./docs/LYNX_PORT.md)
+
+---
+
+## Library usage
+
+Both renderers expose the same 55 named exports.
 
 ```tsx
-import { DotsSpinner } from "./src/components/spinners/dots";
+// React Native
+import { DotsSpinner, MoonSpinner } from "lynx-agent-spinners";
+<DotsSpinner size={24} color="#fff" />
 
-export default function Loading() {
-  return <DotsSpinner size={24} color="#fff" style={{ width: 40, height: 40 }} />;
-}
+// Lynx
+import { DotsSpinner, MoonSpinner } from "lynx-agent-spinners/lynx";
+<DotsSpinner size={24} color="#fff" />
 ```
+
+The 55 spinners cover **4 categories**:
+
+| Category | Count | Examples |
+| --- | --- | --- |
+| Braille | 32 | `dots`, `dots2…14`, `wave`, `sand`, `helix`, `cascade` |
+| ASCII | 15 | `arc`, `simple_dots`, `dqpb`, `triangle`, `noise` |
+| Arrows | 2 | `arrow`, `double_arrow` |
+| Emoji | 6 | `moon`, `earth`, `clock`, `weather`, `hearts`, `speaker` |
+
+Full props/API in the [original library README excerpt below](#props).
+
+---
+
+## The slopfork playbook
+
+This repo is a worked example of porting a JS UI library to a new runtime with minimal divergence. The seven steps:
+
+1. **Architecture doc first.** Write the layered map + decision log + numbered implementation order *before* touching code.
+2. **Find the fork line.** Cluster everything platform-agnostic (data, types, pure hooks). Push it into one shared tree. Only fork at the JSX + style-value boundary.
+3. **One build-time alias replaces one platform shim.** `'react' → '@lynx-js/react'` unlocks the shared hook. Prefer aliasing over abstracting.
+4. **One commit per user story, always end with a runnable artifact.** Bundle size, screenshot, byte-identity check — never "tests pass."
+5. **Subagents for platform docs.** Dispatch Explore + the platform's MCP (here: `lynx-docs`) for element reference, instead of web-searching.
+6. **Verify visually, every step.** Bracket every "feature complete" claim with a screenshot or recording of the running demo. Compile is not done.
+7. **Run the agent in a Ralph loop with a goal hook.** One US per turn, harness blocks stop until the goal is met. Walk away, come back to a finished port.
+
+Full breakdown in the [hackathon deck](./presentation/index.html).
+
+---
+
+## Props
+
+All spinners share the same interface:
+
+| Prop | Type (RN) | Type (Lynx) | Default | Description |
+|------|------|------|---------|-------------|
+| `size` | `number` | `number` | `24` | Font size of the spinner character |
+| `color` | `string` | `string` | `"#fff"` | Color of the spinner |
+| `style` | `StyleProp<ViewStyle>` | — | — | Outer container style (RN) |
+| `className` | — | `string` | — | Outer container class (Lynx) |
 
 ### Container sizing
 
-Spinners render Unicode characters whose pixel width depends on font rendering. To prevent layout overflow or shifting, **always wrap spinners in a fixed-size container**:
+Spinners render Unicode characters whose pixel width depends on font rendering. Wrap in a fixed-size container to prevent layout drift:
 
 ```tsx
-// ✅ Recommended — fixed container keeps layout stable
 <View style={{ width: 40, height: 40, alignItems: "center", justifyContent: "center" }}>
   <DotsSpinner size={24} color="#fff" />
 </View>
-
-// ✅ Also works — pass style directly to the spinner
-<DotsSpinner
-  size={24}
-  color="#fff"
-  style={{ width: 40, height: 40 }}
-/>
-
-// ⚠️ Multi-character spinners (dots12, wave, scan, etc.) are wider —
-//    use a wider fixed container to avoid clipping
-<View style={{ width: 64, height: 40, alignItems: "center", justifyContent: "center" }}>
-  <Dots12Spinner size={20} color="#fff" />
-</View>
 ```
-
-**Suggested container sizes by character count:**
 
 | Spinner type | Characters | Recommended `width` |
 |---|---|---|
@@ -57,122 +176,24 @@ Spinners render Unicode characters whose pixel width depends on font rendering. 
 | Two chars (`dots12`, `wave`, `scan`…) | 2 | `64` |
 | Three+ chars (`point`, `columns`…) | 3–4 | `80–96` |
 
-### Props
+---
 
-All spinners share the same interface:
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `size` | `number` | `24` | Font size of the spinner character |
-| `color` | `string` | `"#fff"` | Color of the spinner |
-| `style` | `StyleProp<ViewStyle>` | — | Style for the outer container |
-
-## Available Spinners
-
-### Braille (32)
-
-| Name | Import |
-|------|--------|
-| dots | `DotsSpinner` |
-| dots2 | `Dots2Spinner` |
-| dots3 | `Dots3Spinner` |
-| dots4 | `Dots4Spinner` |
-| dots5 | `Dots5Spinner` |
-| dots6 | `Dots6Spinner` |
-| dots7 | `Dots7Spinner` |
-| dots8 | `Dots8Spinner` |
-| dots9 | `Dots9Spinner` |
-| dots10 | `Dots10Spinner` |
-| dots11 | `Dots11Spinner` |
-| dots12 | `Dots12Spinner` |
-| dots13 | `Dots13Spinner` |
-| dots14 | `Dots14Spinner` |
-| sand | `SandSpinner` |
-| bounce | `BounceSpinner` |
-| dots_circle | `DotsCircleSpinner` |
-| wave | `WaveSpinner` |
-| scan | `ScanSpinner` |
-| rain | `RainSpinner` |
-| pulse | `PulseSpinner` |
-| snake | `SnakeSpinner` |
-| sparkle | `SparkleSpinner` |
-| cascade | `CascadeSpinner` |
-| columns | `ColumnsSpinner` |
-| orbit | `OrbitSpinner` |
-| breathe | `BreatheSpinner` |
-| waverows | `WaveRowsSpinner` |
-| checkerboard | `CheckerboardSpinner` |
-| helix | `HelixSpinner` |
-| fillsweep | `FillSweepSpinner` |
-| diagswipe | `DiagSwipeSpinner` |
-
-### ASCII (15)
-
-| Name | Import |
-|------|--------|
-| dqpb | `DqpbSpinner` |
-| rolling_line | `RollingLineSpinner` |
-| simple_dots | `SimpleDotsSpinner` |
-| simple_dots_scrolling | `SimpleDotsScrollingSpinner` |
-| arc | `ArcSpinner` |
-| balloon | `BalloonSpinner` |
-| circle_halves | `CircleHalvesSpinner` |
-| circle_quarters | `CircleQuartersSpinner` |
-| point | `PointSpinner` |
-| square_corners | `SquareCornersSpinner` |
-| toggle | `ToggleSpinner` |
-| triangle | `TriangleSpinner` |
-| grow_horizontal | `GrowHorizontalSpinner` |
-| grow_vertical | `GrowVerticalSpinner` |
-| noise | `NoiseSpinner` |
-
-### Arrows (2)
-
-| Name | Import |
-|------|--------|
-| arrow | `ArrowSpinner` |
-| double_arrow | `DoubleArrowSpinner` |
-
-### Emoji (6)
-
-| Name | Import |
-|------|--------|
-| hearts | `HeartsSpinner` |
-| clock | `ClockSpinner` |
-| earth | `EarthSpinner` |
-| moon | `MoonSpinner` |
-| speaker | `SpeakerSpinner` |
-| weather | `WeatherSpinner` |
-
-## Examples
-
-```tsx
-// Braille — classic terminal feel
-<DotsSpinner size={20} color="#6366f1" />
-
-// ASCII — minimal
-<RollingLineSpinner size={18} color="#888" />
-
-// Emoji — fun & expressive
-<MoonSpinner size={24} />
-<WeatherSpinner size={24} />
-```
-
-## Demo App & Contributing
-
-Clone the repo and run the Expo demo to see all 54 spinners live.
-
-To contribute, open a pull request with your changes.
-
-## Why text-based?
-
-Terminal-style spinners are perfect for:
+## Why text-based spinners?
 
 - **AI agent streams** — show activity while waiting for LLM responses
 - **CLI-style UIs** — give your app a developer aesthetic
 - **Lightweight loading states** — no SVG, no Lottie, no heavy assets
 - **Monospace layouts** — pair with code editors or terminal screens
 
+---
+
+## Credits
+
+- Original Expo / React Native library by [@eronred](https://github.com/eronred).
+- Lynx port + presentation by [@huxpro](https://github.com/huxpro).
+- Frame inspiration from [vyfor/rattles](https://github.com/vyfor/rattles).
+- [Lynx](https://lynxjs.org), [Rspeedy](https://lynxjs.org/next/rspeedy/), and [ReactLynx](https://lynxjs.org/next/react/introduction.md) by the Lynx team.
+
 ## License
 
-MIT © [eronred](https://github.com/eronred)
+MIT

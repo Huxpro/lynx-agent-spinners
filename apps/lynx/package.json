@@ -8,7 +8,9 @@
     "preview": "rspeedy preview"
   },
   "dependencies": {
-    "@lynx-js/react": "^0.119.0"
+    "@lynx-js/react": "^0.119.0",
+    "@lynx-js/web-core": "^0.21.0",
+    "@lynx-js/web-elements": "^0.12.3"
   },
   "devDependencies": {
     "@lynx-js/preact-devtools": "^5.0.1",

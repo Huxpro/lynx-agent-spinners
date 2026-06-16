@@ -1,19 +1,27 @@
 {
-  "name": "expo-agent-spinners",
+  "name": "lynx-agent-spinners",
   "version": "1.0.0",
-  "description": "54 terminal-style text spinners for React Native & Expo",
+  "description": "55 terminal-style text spinners — React Native + LynxJS port, 87% shared code",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eronred/expo-agent-spinners.git"
+    "url": "https://github.com/Huxpro/lynx-agent-spinners.git"
   },
-  "author": "eronred",
+  "author": "Huxpro (Lynx port) · eronred (original RN library)",
   "license": "MIT",
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "expo:ios": "expo start --ios",
+    "expo:android": "expo start --android",
+    "expo:web": "expo start --web",
+    "lynx:dev": "pnpm --filter ./apps/lynx dev",
+    "lynx:build": "pnpm --filter ./apps/lynx build",
+    "lynx:preview": "pnpm --filter ./apps/lynx preview",
+    "preso:build": "pnpm lynx:build && bash presentation/sync-lynx-app.sh",
+    "preso": "pnpm preso:build && bash presentation/serve.sh"
   },
   "dependencies": {
     "expo": "~54.0.33",
