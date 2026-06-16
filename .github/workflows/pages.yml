@@ -32,10 +32,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
 
       - name: Install (lynx workspace only)
-        run: pnpm --filter ./apps/lynx install --frozen-lockfile=false
+        run: pnpm --filter ./apps/lynx install --no-frozen-lockfile
 
       - name: Build Lynx bundles (lynx + web)
         run: pnpm --filter ./apps/lynx build
