@@ -6,6 +6,8 @@
 
 [![status](https://img.shields.io/badge/state-shipped-22d3ee?style=flat-square)]() [![reuse](https://img.shields.io/badge/library%20code%20reuse-87%25-a78bfa?style=flat-square)]() [![runtimes](https://img.shields.io/badge/runtimes-RN%20%2B%20Lynx-ff5a5f?style=flat-square)]() [![spinners](https://img.shields.io/badge/spinners-55-fbbf24?style=flat-square)]()
 
+🎬 **Live demo & deck: [huangxuan.me/lynx-agent-spinners/](http://huangxuan.me/lynx-agent-spinners/)** &nbsp;·&nbsp; 📱 **Real Lynx app in your browser: [/lynx-app/](http://huangxuan.me/lynx-agent-spinners/lynx-app/)**
+
 ![Preview](./expo-agent-spinners.gif)
 
 ---
@@ -42,8 +44,10 @@ The React Native demo app, runs on iOS / Android / Web via Expo.
 ```bash
 pnpm expo:ios       # iOS simulator
 pnpm expo:android   # Android emulator
-pnpm expo:web       # browser (needs react-native-web; see Expo docs if missing)
+pnpm expo:web       # browser
 ```
+
+`pnpm expo:web` requires `react-dom` and `react-native-web`; install them on demand with `pnpm dlx expo install react-dom react-native-web` if Expo prompts.
 
 ### 2 · Lynx demo (the port)
 
