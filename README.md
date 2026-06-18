@@ -6,7 +6,7 @@
 
 [![status](https://img.shields.io/badge/state-shipped-22d3ee?style=flat-square)]() [![reuse](https://img.shields.io/badge/library%20code%20reuse-87%25-a78bfa?style=flat-square)]() [![runtimes](https://img.shields.io/badge/runtimes-RN%20%2B%20Lynx-ff5a5f?style=flat-square)]() [![spinners](https://img.shields.io/badge/spinners-55-fbbf24?style=flat-square)]()
 
-🎬 **Live demo & deck: [huangxuan.me/lynx-agent-spinners/](http://huangxuan.me/lynx-agent-spinners/)** &nbsp;·&nbsp; 📱 **Real Lynx app in your browser: [/lynx-app/](http://huangxuan.me/lynx-agent-spinners/lynx-app/)**
+🎬 **Live landing page: [huangxuan.me/lynx-agent-spinners/](http://huangxuan.me/lynx-agent-spinners/)** &nbsp;·&nbsp; 📱 **Full Lynx catalog: [/lynx-app/](http://huangxuan.me/lynx-agent-spinners/lynx-app/)** &nbsp;·&nbsp; 🎤 **Hackathon deck: [/deck/](http://huangxuan.me/lynx-agent-spinners/deck/)**
 
 ![Preview](./expo-agent-spinners.gif)
 
@@ -21,8 +21,9 @@
 | `src/components/spinners/` | React Native renderer + 55 named exports | RN-only |
 | `src/lynx/` | Lynx renderer + 55 named exports | Lynx-only |
 | `App.tsx` | Expo demo app | RN-only |
-| `apps/lynx/` | Lynx demo app (ReactLynx + Rspeedy) | Lynx-only |
-| `presentation/` | The hackathon deck + a live Lynx-for-Web embed | — |
+| `apps/lynx/` | Full 55-spinner catalog app (ReactLynx + Rspeedy) | Lynx-only |
+| `apps/screens/` | Three "signature" agent screens (chat / tools / tasks) | Lynx-only |
+| `presentation/` | Landing page, deck, and Lynx-for-Web embeds — what ships to Pages | — |
 | `docs/LYNX_PORT.md` | Architecture: layers, decision log, risks, implementation order | — |
 
 The full architecture (and *why* every line is shared or forked) is documented in [`docs/LYNX_PORT.md`](./docs/LYNX_PORT.md) — read that for the engineering story.
@@ -62,15 +63,17 @@ pnpm lynx:preview   # static preview of the built bundle
 - `apps/lynx/dist/main.lynx.bundle` — for native Lynx runtimes (iOS / Android / HarmonyOS)
 - `apps/lynx/dist/main.web.bundle` — for Lynx-for-Web (loadable in any browser)
 
-### 3 · Presentation deck (with a live Lynx-for-Web demo)
+### 3 · Landing page (with live `<lynx-view>` embeds)
 
 ```bash
-pnpm preso          # builds the lynx web bundle + serves on http://localhost:8090
+pnpm preso          # builds both Lynx bundles + serves on http://localhost:8090
 ```
 
-The deck (`presentation/index.html`) is a 9-slide hackathon deck that opens with all 55 spinners animating live, then walks through the architecture, the fork, the code-reuse math, and the Harness Engineering techniques used during the port.
+The landing page at `presentation/index.html` is what ships to GitHub Pages. It embeds three signature agent screens (chat / tools / background tasks) and the full 55-spinner catalogue — every embed is a real ReactLynx app running via `<lynx-view url="...">`.
 
-Slide 3 embeds [`presentation/lynx-app/`](./presentation/lynx-app/) in an iframe — that page is the **actual** `main.web.bundle` rendered via `<lynx-view>` from `@lynx-js/web-core`. Same code path that ships to mobile, running in your browser.
+- `/` — landing page
+- `/lynx-app/` — full 55-spinner catalog as a standalone Lynx app
+- `/deck/` — the hackathon deck (architecture, code-reuse math, harness techniques)
 
 > **Note** — Lynx for Web uses `SharedArrayBuffer`, which requires the page to be cross-origin isolated (`COOP: same-origin` + `COEP: require-corp`). `pnpm preso` runs a small Python server (`presentation/serve.py`) that sets those headers. On GitHub Pages, a service-worker shim (`presentation/lynx-app/coi-serviceworker.js`) installs the headers on the fly.
 
