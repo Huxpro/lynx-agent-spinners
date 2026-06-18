@@ -20,7 +20,8 @@
     "lynx:dev": "pnpm --filter ./apps/lynx dev",
     "lynx:build": "pnpm --filter ./apps/lynx build",
     "lynx:preview": "pnpm --filter ./apps/lynx preview",
-    "preso:build": "pnpm lynx:build && bash presentation/sync-lynx-app.sh",
+    "screens:build": "pnpm --filter ./apps/screens build",
+    "preso:build": "pnpm lynx:build && pnpm screens:build && node presentation/extract-spinners.mjs && bash presentation/sync-lynx-app.sh",
     "preso": "pnpm preso:build && bash presentation/serve.sh"
   },
   "dependencies": {

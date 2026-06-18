@@ -44,8 +44,12 @@
 
   // Running on the page
   if (!window.crossOriginIsolated && 'serviceWorker' in navigator) {
+    // Resolve scope to the directory of this script — works whether the page
+    // loads us as ./coi-serviceworker.js or ../coi-serviceworker.js.
+    const swUrl = new URL(window.document.currentScript.src);
+    const swScope = swUrl.pathname.replace(/[^/]*$/, '');
     navigator.serviceWorker
-      .register(window.document.currentScript.src, { scope: './' })
+      .register(swUrl.href, { scope: swScope })
       .then((reg) => {
         reg.addEventListener('updatefound', () => location.reload());
         // First load: SW won't intercept the current page; reload once it's active.

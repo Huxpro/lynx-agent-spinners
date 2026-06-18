@@ -6,7 +6,10 @@ on:
     paths:
       - 'presentation/**'
       - 'src/data/**'
+      - 'src/lynx/**'
+      - 'src/hooks/**'
       - 'apps/lynx/**'
+      - 'apps/screens/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -33,16 +36,21 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install (lynx workspace only)
-        run: pnpm --filter ./apps/lynx install --no-frozen-lockfile
+      - name: Install (lynx + screens workspaces)
+        run: |
+          pnpm --filter ./apps/lynx install --no-frozen-lockfile
+          pnpm --filter ./apps/screens install --no-frozen-lockfile
 
-      - name: Build Lynx bundles (lynx + web)
+      - name: Build catalog Lynx app (lynx + web bundles)
         run: pnpm --filter ./apps/lynx build
 
-      - name: Extract spinner JSON for the deck
+      - name: Build signature-screens app (web bundle)
+        run: pnpm --filter ./apps/screens build
+
+      - name: Extract spinner JSON for landing + deck
         run: node presentation/extract-spinners.mjs
 
-      - name: Sync Lynx-for-Web embed
+      - name: Sync bundles + web-core runtime into presentation/
         run: bash presentation/sync-lynx-app.sh
 
       - name: Upload Pages artifact (presentation/)

@@ -1,0 +1,269 @@
+/* Lynx-native muted. Warm graphite ↔ warm paper. One tinted ember accent. */
+
+page, .root {
+  height: 100vh;
+  width: 100vw;
+  background-color: #f7f3ec;
+  color: #1a1614;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  font-family: "Söhne", "Inter", system-ui;
+}
+
+/* ─── Shared chrome (sits inside every screen) ─── */
+.chrome {
+  height: 38px;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 0.5px solid rgba(26, 22, 20, 0.08);
+}
+.chrome-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background-color: rgba(26, 22, 20, 0.12);
+}
+.chrome-title {
+  color: rgba(26, 22, 20, 0.45);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  margin-left: 6px;
+}
+
+.body {
+  flex: 1;
+  height: 0;
+  padding-left: 18px;
+  padding-right: 18px;
+  padding-top: 22px;
+  padding-bottom: 18px;
+}
+
+/* ─────────── CHAT SCREEN ─────────── */
+.chat-meta {
+  font-size: 10px;
+  color: rgba(26, 22, 20, 0.4);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.chat-bubble-user {
+  background-color: rgba(26, 22, 20, 0.05);
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 16px;
+  margin-bottom: 14px;
+  max-width: 78%;
+  align-self: flex-end;
+}
+.chat-bubble-text {
+  font-size: 14px;
+  color: #1a1614;
+  line-height: 20px;
+}
+
+.chat-status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.chat-status-text {
+  font-size: 13px;
+  color: rgba(26, 22, 20, 0.55);
+}
+.chat-status-spinner {
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-thoughts {
+  margin-top: 16px;
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: 14px;
+  border: 0.5px solid rgba(26, 22, 20, 0.1);
+  background-color: rgba(193, 74, 58, 0.04);
+}
+.chat-thought-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.chat-thought-line {
+  font-size: 12px;
+  color: rgba(26, 22, 20, 0.7);
+  line-height: 18px;
+}
+
+.chat-input {
+  margin-top: auto;
+  border-top: 0.5px solid rgba(26, 22, 20, 0.08);
+  padding-top: 12px;
+  padding-bottom: 6px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.chat-input-placeholder {
+  flex: 1;
+  font-size: 13px;
+  color: rgba(26, 22, 20, 0.35);
+}
+.chat-input-send {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* ─────────── TOOLS SCREEN ─────────── */
+.tools-h {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1614;
+  margin-bottom: 4px;
+}
+.tools-sub {
+  font-size: 12px;
+  color: rgba(26, 22, 20, 0.45);
+  margin-bottom: 22px;
+}
+.tools-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 0.5px solid rgba(26, 22, 20, 0.06);
+}
+.tools-spinner-box {
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+}
+.tools-row-text {
+  flex: 1;
+}
+.tools-row-name {
+  font-size: 13px;
+  color: #1a1614;
+  font-weight: 500;
+}
+.tools-row-state {
+  font-size: 11px;
+  color: rgba(26, 22, 20, 0.4);
+  margin-top: 2px;
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+}
+.tools-row-done {
+  font-size: 11px;
+  color: rgba(26, 22, 20, 0.35);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.tools-footnote {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 0.5px solid rgba(26, 22, 20, 0.06);
+  font-size: 11px;
+  color: rgba(26, 22, 20, 0.4);
+  line-height: 16px;
+}
+
+/* ─────────── TASKS / TERMINAL SCREEN ─────────── */
+.term-root {
+  background-color: #14110e;
+  color: #f0ebe2;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+.term-body {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 18px;
+  flex: 1;
+  height: 0;
+}
+.term-prompt {
+  color: rgba(240, 235, 226, 0.5);
+  font-size: 11px;
+  margin-bottom: 14px;
+}
+.term-prompt-cmd { color: #f0ebe2; }
+.term-line {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.term-status-icon {
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+}
+.term-label {
+  flex: 1;
+  color: rgba(240, 235, 226, 0.8);
+}
+.term-label-done {
+  color: rgba(240, 235, 226, 0.4);
+}
+.term-tail {
+  color: rgba(240, 235, 226, 0.35);
+  font-size: 10px;
+}
+.term-tail-accent { color: #e69d8c; }
+
+.term-chrome {
+  height: 32px;
+  padding-left: 14px;
+  padding-right: 14px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 0.5px solid rgba(240, 235, 226, 0.06);
+  background-color: #1c1814;
+}
+.term-chrome-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  margin-right: 6px;
+}
+.term-chrome-title {
+  color: rgba(240, 235, 226, 0.4);
+  font-size: 11px;
+  margin-left: 12px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
