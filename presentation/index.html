@@ -6,6 +6,18 @@
 <title>lynx-agent-spinners — drop-in loaders for AI agent UIs</title>
 <meta name="description" content="55 terminal-style spinners for AI chat, tool-use, and CLI agents. Built on Lynx — iOS, Android, Web." />
 
+<!-- Resolve theme BEFORE first paint (no FOUC). Stored choice > system. -->
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem('las-theme');
+      var sys = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      var theme = stored === 'light' || stored === 'dark' ? stored : sys;
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) { /* ignore */ }
+  })();
+</script>
+
 <!-- Cross-origin isolation for SharedArrayBuffer (Lynx for Web requirement) -->
 <script src="./coi-serviceworker.js"></script>
 
@@ -22,7 +34,10 @@
 /* ─────────────────────────────────────────────────────────────────────
    Tokens.  Light & dark share the same hue family; only the L axis flips.
    ─────────────────────────────────────────────────────────────────── */
-:root {
+/* Light is the default. Dark is opted into via [data-theme="dark"] so an
+   explicit toggle can override the system preference. The initial theme is
+   resolved by a small inline script before paint, to avoid a FOUC flash. */
+:root, :root[data-theme="light"] {
   --paper:     #faf7f2;
   --ink:       #14110e;
   --ink-soft:  rgba(20, 17, 14, 0.62);
@@ -36,21 +51,20 @@
   --serif:     "Fraunces", "Iowan Old Style", "PT Serif", Cambria, serif;
   --sans:      "IBM Plex Sans", -apple-system, "Söhne", Helvetica, sans-serif;
   --mono:      "IBM Plex Mono", "JetBrains Mono", "SF Mono", ui-monospace, monospace;
-  color-scheme: light dark;
+  color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper:     #14110e;
-    --ink:       #f0ebe2;
-    --ink-soft:  rgba(240, 235, 226, 0.65);
-    --ink-mute:  rgba(240, 235, 226, 0.40);
-    --ink-fade:  rgba(240, 235, 226, 0.18);
-    --line:      rgba(240, 235, 226, 0.10);
-    --card:      rgba(240, 235, 226, 0.045);
-    --accent:    oklch(0.74 0.13 30);
-    --accent-2:  oklch(0.74 0.13 30 / 0.14);
-    --accent-3:  oklch(0.82 0.12 30);
-  }
+:root[data-theme="dark"] {
+  --paper:     #14110e;
+  --ink:       #f0ebe2;
+  --ink-soft:  rgba(240, 235, 226, 0.65);
+  --ink-mute:  rgba(240, 235, 226, 0.40);
+  --ink-fade:  rgba(240, 235, 226, 0.10);
+  --line:      rgba(240, 235, 226, 0.06);
+  --card:      rgba(240, 235, 226, 0.045);
+  --accent:    oklch(0.74 0.13 30);
+  --accent-2:  oklch(0.74 0.13 30 / 0.14);
+  --accent-3:  oklch(0.82 0.12 30);
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -96,11 +110,34 @@ a { color: inherit; }
 }
 .nav-links {
   display: flex;
-  gap: 26px;
+  align-items: center;
+  gap: 22px;
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.04em;
 }
+
+/* ─── Theme toggle ─── */
+.theme-toggle {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: color 240ms, border-color 240ms, background 240ms;
+}
+.theme-toggle:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-2); }
+.theme-toggle svg { display: block; width: 14px; height: 14px; }
+:root[data-theme="dark"] .theme-toggle .icon-sun  { display: block; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+:root:not([data-theme="dark"]) .theme-toggle .icon-sun  { display: none; }
+:root:not([data-theme="dark"]) .theme-toggle .icon-moon { display: block; }
 .nav-links a {
   color: var(--ink-soft);
   text-decoration: none;
@@ -435,15 +472,16 @@ a { color: inherit; }
 }
 .cat-filter[data-active="true"] .count { color: var(--accent); opacity: 0.7; }
 
+/* Use sibling-borders rather than a coloured gap, so the line colour can
+   stay subtle in dark mode without compounding into a glow. */
 .cat-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
 }
 .cell {
-  background: var(--paper);
+  background: transparent;
   padding: 18px 10px 14px;
   display: flex;
   flex-direction: column;
@@ -452,6 +490,8 @@ a { color: inherit; }
   cursor: pointer;
   position: relative;
   transition: background 200ms;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 .cell:hover { background: var(--card); }
 .cell:active { background: var(--accent-2); }
@@ -578,6 +618,15 @@ a { color: inherit; }
       <a href="#screens">screens</a>
       <a href="#catalogue">catalogue</a>
       <a href="https://github.com/Huxpro/lynx-agent-spinners" target="_blank" rel="noopener">github ↗</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+      </button>
     </div>
   </nav>
 
@@ -603,7 +652,7 @@ a { color: inherit; }
 
     <aside class="hero-embed">
       <div class="device">
-        <lynx-view url="./screens/main.web.bundle" init-data='{"screen":"chat"}'></lynx-view>
+        <lynx-view class="lv" data-screen="chat" url="./screens/main.web.bundle"></lynx-view>
       </div>
       <p class="caption">↑ live · &lt;lynx-view&gt; · chat assistant</p>
     </aside>
@@ -635,7 +684,7 @@ a { color: inherit; }
       </div>
       <div class="screen-embed right">
         <div class="device">
-          <lynx-view url="./screens/main.web.bundle" init-data='{"screen":"chat"}'></lynx-view>
+          <lynx-view class="lv" data-screen="chat" url="./screens/main.web.bundle"></lynx-view>
         </div>
       </div>
     </article>
@@ -643,7 +692,7 @@ a { color: inherit; }
     <article class="screen">
       <div class="screen-embed">
         <div class="device">
-          <lynx-view url="./screens/main.web.bundle" init-data='{"screen":"tools"}'></lynx-view>
+          <lynx-view class="lv" data-screen="tools" url="./screens/main.web.bundle"></lynx-view>
         </div>
       </div>
       <div class="screen-copy">
@@ -672,7 +721,7 @@ a { color: inherit; }
       </div>
       <div class="screen-embed right">
         <div class="device dark">
-          <lynx-view url="./screens/main.web.bundle" init-data='{"screen":"tasks"}'></lynx-view>
+          <lynx-view class="lv" data-screen="tasks" url="./screens/main.web.bundle"></lynx-view>
         </div>
       </div>
     </article>
@@ -731,6 +780,61 @@ a { color: inherit; }
 </div>
 
 <script>
+  // ─── Theme: toggle + propagation to every <lynx-view> ───────────
+  //
+  // <lynx-view> is a custom element whose dual-thread runtime is isolated
+  // from the host's CSS — so we can't rely on prefers-color-scheme leaking
+  // through. Instead we pass theme via BOTH `initData` and `globalProps`,
+  // mirroring how a2ui-playground wires it (lynx-stack/packages/genui/
+  // a2ui-playground/src/render.tsx). The Lynx app reads either via
+  // useInitData() / useGlobalProps() and applies a `.theme-*` class.
+  const root = document.documentElement;
+  function currentTheme() { return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; }
+
+  function applyToLynxView(el) {
+    // Wait until @lynx-js/web-core has upgraded the element with properties.
+    // The custom-element registration happens after this script runs, so
+    // we set the JS properties — not just the attribute — once available.
+    const theme = currentTheme();
+    const screen = el.dataset.screen || 'chat';
+    const accent = theme === 'dark' ? '#e69d8c' : '#c14a3a';
+    const payload = { screen, theme, accent };
+    // initData is consumed by useInitData(); globalProps by useGlobalProps().
+    // Setting both matches the a2ui pattern and survives reloads.
+    el.initData = payload;
+    el.globalProps = payload;
+    // Also reflect to attribute so first paint can see it before JS runs.
+    try { el.setAttribute('init-data', JSON.stringify(payload)); } catch {}
+    // Ensure the bundle URL is set with a cache-bust query so dev iterations
+    // pick up the latest build — without this the browser HTTP-caches the
+    // bundle and theme changes in the source don't surface.
+    if (!el.__urlSet) {
+      const bust = window.__BUNDLE_BUST__ || (window.__BUNDLE_BUST__ = String(Date.now()));
+      el.setAttribute('url', `./screens/main.web.bundle?v=${bust}`);
+      el.__urlSet = true;
+    }
+    if (typeof el.reload === 'function' && el.__themeBooted) el.reload();
+    el.__themeBooted = true;
+  }
+
+  function wireAllLynxViews() {
+    document.querySelectorAll('lynx-view.lv').forEach(applyToLynxView);
+  }
+
+  // Apply once at startup — but lynx-view may upgrade after this fires, so
+  // we re-apply when it becomes defined, and also on every theme toggle.
+  if (window.customElements?.whenDefined) {
+    customElements.whenDefined('lynx-view').then(wireAllLynxViews);
+  }
+  wireAllLynxViews();
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('las-theme', next); } catch {}
+    wireAllLynxViews();
+  });
+
   // ─── Wordmark spinner ─────────────────────────────────────────────
   const FRAMES = ["⠋","⠙","⠹","⠸","⠼","⠴","⠦","⠧","⠇","⠏"];
   let i = 0;

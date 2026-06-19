@@ -1,13 +1,15 @@
 import type * as data from '../../../../src/data';
 
 interface Props {
+  theme: 'light' | 'dark';
   accent: string;
   Spinner: any;
   data: typeof data;
 }
 
-export function TasksScreen({ accent, Spinner, data }: Props) {
-  void accent;
+export function TasksScreen({ Spinner, data }: Props) {
+  // Terminal screen is intentionally always dark — it represents a
+  // developer's terminal, which is dark regardless of host theme.
   return (
     <view className="term-root">
       <view className="term-chrome">
