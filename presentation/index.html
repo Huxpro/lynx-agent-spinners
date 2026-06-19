@@ -374,6 +374,131 @@ a { color: inherit; }
 .sec-note a { color: var(--ink-soft); }
 .sec-note a:hover { color: var(--accent); }
 
+/* ─── Full-app section: phone-frame + QR + open-standalone ─── */
+.full-app-sec {
+  margin-bottom: clamp(96px, 14vw, 180px);
+}
+.full-app-stage {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 380px);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+@media (max-width: 880px) {
+  .full-app-stage { grid-template-columns: 1fr; }
+  .full-app-meta { order: 2; }
+  .full-app-device { order: 1; justify-self: center; }
+}
+.full-app-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+.full-app-device { min-width: 0; display: flex; justify-content: flex-end; }
+@media (max-width: 880px) { .full-app-device { justify-content: center; } }
+.full-app-device .device {
+  --phone-w: 360px;
+  --phone-h: 760px;
+  position: relative;
+  width: var(--phone-w);
+  height: var(--phone-h);
+  max-height: 80vh;
+  aspect-ratio: 360 / 760;
+  border-radius: 30px;
+  overflow: hidden;
+  background: #000;
+  border: 4px solid #1a1e28;
+  box-shadow: 0 30px 70px -28px rgba(20, 17, 14, 0.30),
+              0 8px 24px -8px rgba(20, 17, 14, 0.18);
+  touch-action: none;
+}
+:root[data-theme="dark"] .full-app-device .device {
+  border-color: #2a2620;
+  box-shadow: 0 30px 70px -28px rgba(0, 0, 0, 0.60),
+              0 8px 24px -8px rgba(0, 0, 0, 0.45);
+}
+.full-app-device .device lynx-view {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* QR card (matches the standalone page) */
+.qr-card {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 10px;
+  max-width: 420px;
+}
+.qr-canvas {
+  flex-shrink: 0;
+  width: 124px;
+  height: 124px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qr-canvas canvas, .qr-canvas svg { display: block; max-width: 100%; height: auto; }
+.qr-meta { min-width: 0; }
+.qr-label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.qr-title {
+  font-size: 14.5px;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+.qr-hint {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.qr-hint a {
+  color: var(--accent-3);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-2);
+}
+.qr-hint a:hover { border-color: var(--accent); }
+/* CTAs */
+.full-app-cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+.full-app-cta .cta {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid var(--accent-2);
+  background: transparent;
+  padding: 10px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 240ms, border-color 240ms;
+}
+.full-app-cta .cta:hover { background: var(--accent-2); border-color: var(--accent); }
+.full-app-cta .cta.subtle { color: var(--ink-soft); border-color: var(--line); }
+.full-app-cta .cta.subtle:hover { color: var(--ink); border-color: var(--ink-fade); background: var(--card); }
+
 /* ─── Screens (the in-context demos) ─── */
 .screens {
   margin-bottom: clamp(96px, 14vw, 180px);
@@ -707,6 +832,48 @@ a { color: inherit; }
 
   </header>
 
+  <!-- FULL APP: the whole catalog as a single ReactLynx app -->
+  <section id="full-app" class="full-app-sec">
+    <div class="sec-h">
+      <span class="label" data-i18n="sec.fullApp.label">Full app</span>
+    </div>
+
+    <h2 class="sec-title" data-i18n-html="sec.fullApp.title">
+      The whole app, <em>running here.</em>
+    </h2>
+    <p class="sec-lede" data-i18n-html="sec.fullApp.lede">
+      The same Lynx bundle that ships to iOS and Android, rendered on the right via
+      <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>.
+      Scan the code with
+      <a class="link" href="https://lynxjs.org/guide/start/quick-start.html#prepare-lynx-explorer" target="_blank" rel="noopener">Lynx Explorer</a>
+      to load it natively on your phone, or open the standalone page in a new tab.
+    </p>
+
+    <div class="full-app-stage">
+      <div class="full-app-meta">
+        <div class="qr-card">
+          <div id="full-app-qr" class="qr-canvas"></div>
+          <div class="qr-meta">
+            <div class="qr-label" data-i18n="sec.fullApp.qrLabel">Open natively</div>
+            <div class="qr-title" data-i18n="sec.fullApp.qrTitle">Scan with Lynx Explorer</div>
+            <div class="qr-hint">
+              <a href="#" id="full-app-copy" data-i18n="sec.fullApp.copy">Copy bundle URL</a>
+            </div>
+          </div>
+        </div>
+        <div class="full-app-cta">
+          <a class="cta" href="./lynx-app/" target="_blank" rel="noopener" data-i18n="sec.fullApp.openStandalone">Open standalone ↗</a>
+          <a class="cta subtle" href="./lynx-app/main.lynx.bundle?fullscreen=true" id="full-app-direct" data-i18n="sec.fullApp.direct">direct .lynx.bundle</a>
+        </div>
+      </div>
+      <div class="full-app-device">
+        <div class="device">
+          <lynx-view class="full-app-lv" url="./lynx-app/main.web.bundle"></lynx-view>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- IN CONTEXT: the three signature screens -->
   <section id="screens" class="screens">
     <div class="sec-h">
@@ -829,6 +996,16 @@ a { color: inherit; }
       'cat.arrows':       'Arrows',
       'cat.emoji':        'Emoji',
 
+      'sec.fullApp.label':         'Full app',
+      'sec.fullApp.title':         'The whole app, <em>running here.</em>',
+      'sec.fullApp.lede':          'The same Lynx bundle that ships to iOS and Android, rendered on the right via <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>. Scan the code with <a class="link" href="https://lynxjs.org/guide/start/quick-start.html#prepare-lynx-explorer" target="_blank" rel="noopener">Lynx Explorer</a> to load it natively on your phone, or open the standalone page in a new tab.',
+      'sec.fullApp.qrLabel':       'Open natively',
+      'sec.fullApp.qrTitle':       'Scan with Lynx Explorer',
+      'sec.fullApp.copy':          'Copy bundle URL',
+      'sec.fullApp.copied':        '✓ copied',
+      'sec.fullApp.openStandalone':'Open standalone ↗',
+      'sec.fullApp.direct':        'direct .lynx.bundle',
+
       'sec.context.label': 'In context',
       'sec.context.note':  'Three screens, each a <a class="link" href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a> app rendered through <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>. Drag the bottom-right corner of any device to resize. Each embed is its own independent Lynx container and reflows independently.',
 
@@ -875,6 +1052,16 @@ a { color: inherit; }
       'cat.ascii':        'ASCII',
       'cat.arrows':       '箭头',
       'cat.emoji':        'Emoji',
+
+      'sec.fullApp.label':         '完整 App',
+      'sec.fullApp.title':         '整个 app，<em>就在这里跑。</em>',
+      'sec.fullApp.lede':          '同一份发往 iOS / Android 的 Lynx bundle，通过 <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a> 渲染在右侧设备框里。用 <a class="link" href="https://lynxjs.org/guide/start/quick-start.html#prepare-lynx-explorer" target="_blank" rel="noopener">Lynx Explorer</a> 扫码即可在手机上原生加载，也可以在新标签页打开独立页面。',
+      'sec.fullApp.qrLabel':       '原生打开',
+      'sec.fullApp.qrTitle':       '用 Lynx Explorer 扫码',
+      'sec.fullApp.copy':          '复制 bundle URL',
+      'sec.fullApp.copied':        '✓ 已复制',
+      'sec.fullApp.openStandalone':'打开独立页面 ↗',
+      'sec.fullApp.direct':        '直接 .lynx.bundle',
 
       'sec.context.label': '应用场景',
       'sec.context.note':  '下面三个界面都是用 <a class="link" href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a> 实现的 Lynx 应用，通过 <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a> 渲染。拖动设备右下角可以改变尺寸。每个嵌入都是独立的 Lynx 容器，各自响应自己的尺寸变化。',
@@ -1108,6 +1295,48 @@ a { color: inherit; }
     document.getElementById('cat-grid').innerHTML =
       '<p style="padding:20px;color:var(--accent);">Could not load spinners.json. Run <code>node presentation/extract-spinners.mjs</code> first.</p>';
   });
+
+  // ─── Full-app section: QR + copy URL ─────────────────────────────
+  // Encodes the absolute URL of the native .lynx.bundle so Lynx Explorer
+  // can scan it. `?fullscreen=true` mirrors the schema used by
+  // pluginQRCode in apps/lynx/lynx.config.ts so the app opens fullscreen.
+  const fullAppBundleUrl = new URL('./lynx-app/main.lynx.bundle?fullscreen=true', location.href).toString();
+  const fullAppDirect = document.getElementById('full-app-direct');
+  if (fullAppDirect) fullAppDirect.href = fullAppBundleUrl;
+
+  function renderFullAppQR() {
+    const host = document.getElementById('full-app-qr');
+    if (!host || !window.QrCreator) return;
+    host.innerHTML = '';
+    const size = 108;
+    window.QrCreator.render(
+      {
+        text: fullAppBundleUrl,
+        radius: 0.0,
+        ecLevel: 'M',
+        fill: '#14110e',
+        background: '#ffffff',
+        size: size * (window.devicePixelRatio || 1),
+      },
+      host,
+    );
+    const c = host.querySelector('canvas');
+    if (c) { c.style.width = size + 'px'; c.style.height = size + 'px'; }
+  }
+  if (window.QrCreator) renderFullAppQR();
+  else window.addEventListener('load', renderFullAppQR);
+
+  const fullAppCopy = document.getElementById('full-app-copy');
+  if (fullAppCopy) {
+    fullAppCopy.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (navigator.clipboard) navigator.clipboard.writeText(fullAppBundleUrl);
+      const dict = I18N[currentLang()];
+      const orig = dict['sec.fullApp.copy'];
+      fullAppCopy.textContent = dict['sec.fullApp.copied'];
+      setTimeout(() => { fullAppCopy.textContent = orig; }, 1400);
+    });
+  }
 </script>
 
 </body>
