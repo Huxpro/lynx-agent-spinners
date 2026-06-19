@@ -69,6 +69,7 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html, body { overflow-x: hidden; }
 body {
   background: var(--paper);
   color: var(--ink);
@@ -92,8 +93,10 @@ a { color: inherit; }
 .nav {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
+  gap: 16px;
   margin-bottom: clamp(64px, 12vw, 140px);
+  flex-wrap: nowrap;
 }
 .wordmark {
   font-family: var(--mono);
@@ -101,6 +104,17 @@ a { color: inherit; }
   font-weight: 500;
   letter-spacing: 0.02em;
   color: var(--ink);
+  white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 540px) {
+  /* On narrow screens, the in-page anchors are noise — wordmark, github,
+     and toggle is enough. */
+  .nav-links a[href^="#"] { display: none; }
+  .nav-links { gap: 14px; }
+  .wordmark { font-size: 12px; }
 }
 .wordmark .glyph {
   color: var(--accent);
@@ -162,20 +176,24 @@ a { color: inherit; }
 @media (max-width: 880px) {
   .hero { grid-template-columns: 1fr; }
 }
+/* Fraunces axes tuned for restraint: lower opsz (less display-y), SOFT 0
+   (less sign-painter, more docs-team), wght 420 (cleaner verticals). The
+   italic gets just a touch of softness to make the contrast with the
+   roman feel intentional rather than stylized. */
 .hero-title {
   font-family: var(--serif);
-  font-weight: 380;
-  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-weight: 420;
+  font-variation-settings: "opsz" 96, "SOFT" 0;
   font-size: clamp(56px, 9.5vw, 132px);
-  line-height: 0.92;
-  letter-spacing: -0.025em;
+  line-height: 0.94;
+  letter-spacing: -0.022em;
   color: var(--ink);
   grid-column: 1;
 }
 .hero-title em {
   font-style: italic;
-  font-weight: 320;
-  font-variation-settings: "opsz" 144, "SOFT" 100;
+  font-weight: 360;
+  font-variation-settings: "opsz" 96, "SOFT" 30;
   color: var(--accent);
 }
 .hero-title .live-mark {
@@ -285,10 +303,14 @@ a { color: inherit; }
 @media (max-width: 880px) {
   .hero-embed { grid-column: 1; grid-row: auto; min-height: 440px; }
 }
+/* Resizable device — drag the bottom-right corner to widen/narrow the
+   lynx-view. Each embed is its own independent Lynx container with its
+   own dual-thread runtime, so the screens reflow per-instance. */
 .hero-embed .device {
   width: 100%;
   aspect-ratio: 390 / 720;
   max-width: 380px;
+  min-width: 240px;
   margin-left: auto;
   background: var(--paper);
   border: 1px solid var(--line);
@@ -297,6 +319,7 @@ a { color: inherit; }
   box-shadow:
     0 1px 0 var(--line),
     0 30px 60px -20px rgba(20, 17, 14, 0.12);
+  resize: horizontal;
 }
 .hero-embed .device lynx-view { width: 100%; height: 100%; display: block; }
 .hero-embed .caption {
@@ -343,11 +366,11 @@ a { color: inherit; }
 }
 .sec-title {
   font-family: var(--serif);
-  font-weight: 420;
-  font-variation-settings: "opsz" 144;
+  font-weight: 460;
+  font-variation-settings: "opsz" 72, "SOFT" 0;
   font-size: clamp(36px, 5.5vw, 64px);
-  line-height: 1.04;
-  letter-spacing: -0.018em;
+  line-height: 1.05;
+  letter-spacing: -0.016em;
   margin-bottom: 18px;
   max-width: 18ch;
 }
@@ -386,11 +409,11 @@ a { color: inherit; }
 }
 .screen-copy h3 {
   font-family: var(--serif);
-  font-weight: 400;
-  font-variation-settings: "opsz" 96;
+  font-weight: 440;
+  font-variation-settings: "opsz" 48, "SOFT" 0;
   font-size: clamp(28px, 4vw, 44px);
-  line-height: 1.08;
-  letter-spacing: -0.01em;
+  line-height: 1.1;
+  letter-spacing: -0.012em;
   margin-bottom: 18px;
   max-width: 16ch;
 }
@@ -427,11 +450,13 @@ a { color: inherit; }
 .screen-embed .device {
   width: 100%;
   max-width: 420px;
+  min-width: 260px;
   aspect-ratio: 390 / 680;
   border: 1px solid var(--line);
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 20px 50px -20px rgba(20, 17, 14, 0.10);
+  resize: both;
 }
 .screen-embed .device.dark {
   background: #14110e;
@@ -472,26 +497,26 @@ a { color: inherit; }
 }
 .cat-filter[data-active="true"] .count { color: var(--accent); opacity: 0.7; }
 
-/* Use sibling-borders rather than a coloured gap, so the line colour can
-   stay subtle in dark mode without compounding into a glow. */
+/* Font-specimen feel: no drawn grid lines (they read chunky in dark mode
+   and templated in light mode). Cells separate themselves through space
+   and typography; hover provides emphasis. */
 .cat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  border-top: 1px solid var(--line);
-  border-left: 1px solid var(--line);
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  gap: 4px;
 }
 .cell {
   background: transparent;
-  padding: 18px 10px 14px;
+  padding: 22px 10px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   cursor: pointer;
   position: relative;
-  transition: background 200ms;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  border-radius: 6px;
+  transition: background 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-tap-highlight-color: transparent;
 }
 .cell:hover { background: var(--card); }
 .cell:active { background: var(--accent-2); }
@@ -654,7 +679,7 @@ a { color: inherit; }
       <div class="device">
         <lynx-view class="lv" data-screen="chat" url="./screens/main.web.bundle"></lynx-view>
       </div>
-      <p class="caption">↑ live · &lt;lynx-view&gt; · chat assistant</p>
+      <p class="caption">↑ live · &lt;lynx-view&gt; · drag bottom-right to resize</p>
     </aside>
   </header>
 
@@ -752,7 +777,7 @@ a { color: inherit; }
       <p style="margin-bottom: 16px;">
         ReactLynx (iOS · Android · HarmonyOS · Web) — and React Native, via the same shared frame data.
       </p>
-      <pre style="font-family: var(--mono); font-size: 12.5px; background: var(--card); border: 1px solid var(--line); padding: 14px 16px; border-radius: 6px; overflow-x: auto; color: var(--ink);">import { DotsSpinner } from 'lynx-agent-spinners/lynx';
+      <pre style="font-family: var(--mono); font-size: 12.5px; background: var(--card); border: 1px solid var(--line); padding: 14px 16px; border-radius: 6px; color: var(--ink); white-space: pre-wrap; word-break: break-word; max-width: 100%;">import { DotsSpinner } from 'lynx-agent-spinners/lynx';
 
 &lt;DotsSpinner size={20} color="currentColor" /&gt;</pre>
     </div>
