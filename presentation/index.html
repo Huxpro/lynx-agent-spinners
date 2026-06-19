@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>lynx-agent-spinners — drop-in loaders for AI agent UIs</title>
-<meta name="description" content="55 terminal-style spinners for AI chat, tool-use, and CLI agents. Built on Lynx — iOS, Android, Web." />
+<title>lynx-agent-spinners · drop-in loaders for AI agent UIs</title>
+<meta name="description" content="55 terminal-style spinners for AI chat, tool-use, and CLI agents. Built on Lynx." />
 
 <!-- Resolve theme BEFORE first paint (no FOUC). Stored choice > system. -->
 <script>
@@ -110,7 +110,7 @@ a { color: inherit; }
   text-overflow: ellipsis;
 }
 @media (max-width: 540px) {
-  /* On narrow screens, the in-page anchors are noise — wordmark, github,
+  /* On narrow screens, the in-page anchors are noise; wordmark, github,
      and toggle is enough. */
   .nav-links a[href^="#"] { display: none; }
   .nav-links { gap: 14px; }
@@ -168,7 +168,7 @@ a { color: inherit; }
 .first-screen {
   margin-bottom: clamp(96px, 14vw, 180px);
 }
-/* Two-column hero band — title block left, use-it snippet right. */
+/* Two-column hero band: title block left, use-it snippet right. */
 .hero-band {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
@@ -254,9 +254,9 @@ a { color: inherit; }
 }
 .hero-cta .browse:hover::after { transform: translateX(3px); }
 
-/* Use-it snippet — sits in the right column of the hero band, paired
-   with the headline. First piece of API the visitor sees is also the
-   most useful one. */
+/* Use-it snippet. Sits in the right column of the hero band, paired
+   with the headline. The first piece of API the visitor sees is also
+   the most useful one. */
 .use-it { min-width: 0; }
 .use-it-label {
   font-family: var(--mono);
@@ -296,7 +296,7 @@ a { color: inherit; }
 .use-it .t-n { color: var(--accent-3); }              /* numeric */
 :root[data-theme="dark"] .use-it .t-s { color: oklch(0.78 0.12 145); }
 
-/* ─── Section header — used by all sections below ─── */
+/* ─── Section header (used by all sections below) ─── */
 .sec-h {
   display: flex;
   align-items: baseline;
@@ -345,6 +345,17 @@ a { color: inherit; }
   line-height: 1.6;
   margin-bottom: clamp(40px, 6vw, 72px);
 }
+/* A low-key intro paragraph used in sections without a big serif title. */
+.sec-note {
+  max-width: 64ch;
+  font-size: 14px;
+  color: var(--ink-mute);
+  line-height: 1.55;
+  margin-top: 4px;
+  margin-bottom: clamp(40px, 6vw, 72px);
+}
+.sec-note a { color: var(--ink-soft); }
+.sec-note a:hover { color: var(--accent); }
 
 /* ─── Screens (the in-context demos) ─── */
 .screens {
@@ -428,7 +439,7 @@ a { color: inherit; }
 .screen-embed .device lynx-view { width: 100%; height: 100%; display: block; }
 
 /* ─── Catalogue grid ─── */
-/* Sits directly under the hero band — no big section title between them. */
+/* Sits directly under the hero band, with no big section title between them. */
 .cat-bar {
   display: flex;
   justify-content: space-between;
@@ -486,8 +497,8 @@ a { color: inherit; }
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   gap: 2px;
 }
-/* Reset <button> UA defaults — without this Chrome draws a light border
-   in dark mode and a dark one in light mode, which is exactly the
+/* Reset <button> UA defaults. Without this Chrome draws a light border
+   in dark mode and a dark one in light mode, which was the
    "white border" the screenshot showed. */
 .cell {
   appearance: none;
@@ -641,7 +652,7 @@ a { color: inherit; }
     </div>
   </nav>
 
-  <!-- HERO + CATALOGUE — first screen -->
+  <!-- HERO + CATALOGUE: first screen -->
   <header id="catalogue" class="first-screen">
 
     <div class="hero-band">
@@ -664,7 +675,7 @@ a { color: inherit; }
 
 &lt;<span class="t-c">DotsSpinner</span> size={<span class="t-n">20</span>} color=<span class="t-s">"currentColor"</span> /&gt;</pre>
         <p class="use-it-note">
-          Each tile below is the actual frame data — the same array the
+          Each tile below is the actual frame data, the same array the
           <a class="link" href="#screens">in-context demos</a> read from.
           <span class="hide-narrow">Tap any cell to copy.</span>
         </p>
@@ -680,7 +691,7 @@ a { color: inherit; }
 
   </header>
 
-  <!-- IN CONTEXT — the three signature screens -->
+  <!-- IN CONTEXT: the three signature screens -->
   <section id="screens" class="screens">
     <div class="sec-h">
       <span class="num">02</span>
@@ -688,20 +699,19 @@ a { color: inherit; }
       <span class="rule"></span>
     </div>
 
-    <h2 class="sec-title"><em>In context.</em></h2>
-    <p class="sec-lede">
-      Each screen below is a
+    <p class="sec-note">
+      Three screens, each a
       <a class="link" href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a>
       app rendered through
-      <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a> —
-      the same bundles that ship to native, running in this tab. Drag the bottom-right corner of any device to resize it; each embed is its own independent Lynx container and reflows independently.
+      <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>.
+      Drag the bottom-right corner of any device to resize. Each embed is its own independent Lynx container and reflows independently.
     </p>
 
     <article class="screen">
       <div class="screen-copy">
         <span class="ord">01 / DRAFTING</span>
         <h3>While the model is still composing its reply.</h3>
-        <p>A chat surface where the user has just hit send. The model's reasoning steps stream in below; <code>dots</code> for the headline status, <code>arc</code> and <code>breathe</code> for the sub-steps. Calm pacing, unintrusive — the spinner means "still here, still working."</p>
+        <p>A chat surface where the user has just hit send. The model's reasoning steps stream in below; <code>dots</code> for the headline status, <code>arc</code> and <code>breathe</code> for the sub-steps. Calm pacing, unintrusive. The spinner means "still here, still working."</p>
         <div class="tag-row">
           <span class="tag">dots</span>
           <span class="tag">arc</span>
@@ -738,7 +748,7 @@ a { color: inherit; }
       <div class="screen-copy">
         <span class="ord">03 / BACKGROUND RUN</span>
         <h3>Terminal-native, even when there's no terminal.</h3>
-        <p>For long-running agent tasks — applying migrations, streaming tests, waiting on CI — a CLI feel grounds the UI in the developer's mental model. Same braille glyphs they already trust in <code>ora</code>, <code>spin</code>, <code>cli-spinners</code>.</p>
+        <p>For long-running agent tasks (applying migrations, streaming tests, waiting on CI), a CLI feel grounds the UI in the developer's mental model. Same braille glyphs they already trust in <code>ora</code>, <code>spin</code>, <code>cli-spinners</code>.</p>
         <div class="tag-row">
           <span class="tag">dots11</span>
           <span class="tag">bounce</span>
@@ -758,23 +768,23 @@ a { color: inherit; }
     <div>
       <h4>Stack</h4>
       <ul>
-        <li><a href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a> — the cross-platform UI engine</li>
-        <li><a href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a> — the React framework on Lynx</li>
-        <li><a href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a> — the custom element that mounts a Lynx bundle in any web page</li>
+        <li><a href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a>, the cross-platform UI engine</li>
+        <li><a href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a>, the React framework on Lynx</li>
+        <li><a href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>, the custom element that mounts a Lynx bundle in any web page</li>
       </ul>
     </div>
 
     <div>
       <h4>Run it</h4>
       <ul>
-        <li><a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a> — three commands, three demos</li>
+        <li><a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a>: three commands, three demos</li>
         <li><a href="https://github.com/Huxpro/lynx-agent-spinners" target="_blank" rel="noopener">GitHub repository</a></li>
-        <li><a href="./lynx-app/" target="_blank" rel="noopener">Full catalog Lynx app</a> — standalone <code>&lt;lynx-view&gt;</code> page</li>
+        <li><a href="./lynx-app/" target="_blank" rel="noopener">Full catalog Lynx app</a>: standalone <code>&lt;lynx-view&gt;</code> page</li>
       </ul>
 
       <h4 style="margin-top: 30px;">Footnote</h4>
       <p class="fn">
-        Originally adapted from <a href="https://github.com/eronred/expo-agent-spinners" target="_blank" rel="noopener">expo-agent-spinners</a>. The shared-core port — what stayed identical, what had to fork, and the harness around the agent that made the work boring — is written up in <a href="./deck/" target="_blank" rel="noopener">the deck</a>.
+        Originally adapted from <a href="https://github.com/eronred/expo-agent-spinners" target="_blank" rel="noopener">expo-agent-spinners</a>. The shared-core port (what stayed identical, what had to fork, and the harness around the agent that made the work boring) is written up in <a href="./deck/" target="_blank" rel="noopener">the deck</a>.
       </p>
     </div>
 
@@ -790,7 +800,7 @@ a { color: inherit; }
   // ─── Theme: toggle + propagation to every <lynx-view> ───────────
   //
   // <lynx-view> is a custom element whose dual-thread runtime is isolated
-  // from the host's CSS — so we can't rely on prefers-color-scheme leaking
+  // from the host's CSS, so we can't rely on prefers-color-scheme leaking
   // through. Instead we pass theme via BOTH `initData` and `globalProps`,
   // mirroring how a2ui-playground wires it (lynx-stack/packages/genui/
   // a2ui-playground/src/render.tsx). The Lynx app reads either via
@@ -801,7 +811,7 @@ a { color: inherit; }
   function applyToLynxView(el) {
     // Wait until @lynx-js/web-core has upgraded the element with properties.
     // The custom-element registration happens after this script runs, so
-    // we set the JS properties — not just the attribute — once available.
+    // we set the JS properties (not just the attribute) once available.
     const theme = currentTheme();
     const screen = el.dataset.screen || 'chat';
     const accent = theme === 'dark' ? '#e69d8c' : '#c14a3a';
@@ -813,7 +823,7 @@ a { color: inherit; }
     // Also reflect to attribute so first paint can see it before JS runs.
     try { el.setAttribute('init-data', JSON.stringify(payload)); } catch {}
     // Ensure the bundle URL is set with a cache-bust query so dev iterations
-    // pick up the latest build — without this the browser HTTP-caches the
+    // pick up the latest build. Without this the browser HTTP-caches the
     // bundle and theme changes in the source don't surface.
     if (!el.__urlSet) {
       const bust = window.__BUNDLE_BUST__ || (window.__BUNDLE_BUST__ = String(Date.now()));
@@ -828,7 +838,7 @@ a { color: inherit; }
     document.querySelectorAll('lynx-view.lv').forEach(applyToLynxView);
   }
 
-  // Apply once at startup — but lynx-view may upgrade after this fires, so
+  // Apply once at startup, but lynx-view may upgrade after this fires, so
   // we re-apply when it becomes defined, and also on every theme toggle.
   if (window.customElements?.whenDefined) {
     customElements.whenDefined('lynx-view').then(wireAllLynxViews);

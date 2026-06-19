@@ -65,7 +65,7 @@ export function ToolsScreen({ theme, accent, Spinner, data }: Props) {
         </view>
 
         <text className="tools-footnote">
-          Each step has its own spinner glyph — the user can tell at a glance whether the agent is searching, reading, computing, or testing.
+          Each step has its own spinner glyph, so the user can tell at a glance whether the agent is searching, reading, computing, or testing.
         </text>
       </view>
     </view>

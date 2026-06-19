@@ -1,8 +1,8 @@
 /* Lynx-native muted. Light + dark variants. Theme selected by the host
-   via initData / globalProps — see App.tsx + presentation/index.html.
+   via initData / globalProps (see App.tsx + presentation/index.html).
 
    Sizing: use 100% (not 100vw/100vh) so the screens reflow to whatever
-   the host's <lynx-view> element is sized to — including dynamic resize.
+   the host's <lynx-view> element is sized to, including dynamic resize.
    Each embed is its own independent Lynx container. */
 page {
   height: 100%;
@@ -239,7 +239,7 @@ page {
 }
 
 /* ─────────── TASKS / TERMINAL SCREEN ─────────── */
-/* The terminal screen is intentionally always dark — it represents a
+/* The terminal screen is intentionally always dark. It represents a
    developer's terminal, which is dark regardless of system theme. */
 .term-root {
   background-color: #14110e;

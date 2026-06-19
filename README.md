@@ -1,6 +1,6 @@
 # Lynx Agent Spinners
 
-> Originally an Expo / React Native library of 55 terminal-style agent spinners. Now also a **LynxJS** port — same 55 spinners, same animation logic, same frame arrays, running natively on iOS / Android / Web via [ReactLynx](https://lynxjs.org/next/react/introduction.md).
+> Originally an Expo / React Native library of 55 terminal-style agent spinners. Now also a **LynxJS** port: same 55 spinners, same animation logic, same frame arrays, running natively on iOS / Android / Web via [ReactLynx](https://lynxjs.org/next/react/introduction.md).
 >
 > **87% of the library code is shared** between the React Native and Lynx builds. Only the ~90-line renderer is forked. This repo is also a worked example of what we're calling a **"slopfork"**: porting a JS UI library to a new runtime by sharing maximally and forking only at the rendering boundary.
 
@@ -23,14 +23,16 @@
 | `App.tsx` | Expo demo app | RN-only |
 | `apps/lynx/` | Full 55-spinner catalog app (ReactLynx + Rspeedy) | Lynx-only |
 | `apps/screens/` | Three "signature" agent screens (chat / tools / tasks) | Lynx-only |
-| `presentation/` | Landing page, deck, and Lynx-for-Web embeds — what ships to Pages | — |
-| `docs/LYNX_PORT.md` | Architecture: layers, decision log, risks, implementation order | — |
+| `presentation/` | Landing page, deck, and Lynx-for-Web embeds (ships to Pages) | (root) |
+| `docs/LYNX_PORT.md` | Architecture: layers, decision log, risks, implementation order | (root) |
 
-The full architecture (and *why* every line is shared or forked) is documented in [`docs/LYNX_PORT.md`](./docs/LYNX_PORT.md) — read that for the engineering story.
+The full architecture (and *why* every line is shared or forked) is documented in [`docs/LYNX_PORT.md`](./docs/LYNX_PORT.md). Read that for the engineering story.
 
 ---
 
-## Quick start — try it locally
+## Quick start
+
+Try it locally:
 
 ```bash
 pnpm install
@@ -58,10 +60,10 @@ pnpm lynx:build     # build main.lynx.bundle + main.web.bundle
 pnpm lynx:preview   # static preview of the built bundle
 ```
 
-`pnpm lynx:dev` prints a QR code — scan it with [LynxExplorer](https://lynxjs.org/next/guide/start/quick-start.md) on a device or emulator to see the demo. The build emits **two** artifacts:
+`pnpm lynx:dev` prints a QR code. Scan it with [LynxExplorer](https://lynxjs.org/next/guide/start/quick-start.md) on a device or emulator to see the demo. The build emits **two** artifacts:
 
-- `apps/lynx/dist/main.lynx.bundle` — for native Lynx runtimes (iOS / Android / HarmonyOS)
-- `apps/lynx/dist/main.web.bundle` — for Lynx-for-Web (loadable in any browser)
+- `apps/lynx/dist/main.lynx.bundle` for native Lynx runtimes (iOS / Android / HarmonyOS)
+- `apps/lynx/dist/main.web.bundle` for Lynx-for-Web (loadable in any browser)
 
 ### 3 · Landing page (with live `<lynx-view>` embeds)
 
@@ -69,13 +71,13 @@ pnpm lynx:preview   # static preview of the built bundle
 pnpm preso          # builds both Lynx bundles + serves on http://localhost:8090
 ```
 
-The landing page at `presentation/index.html` is what ships to GitHub Pages. It embeds three signature agent screens (chat / tools / background tasks) and the full 55-spinner catalogue — every embed is a real ReactLynx app running via `<lynx-view url="...">`.
+The landing page at `presentation/index.html` is what ships to GitHub Pages. It embeds three signature agent screens (chat / tools / background tasks) and the full 55-spinner catalogue. Every embed is a real ReactLynx app running via `<lynx-view url="...">`.
 
-- `/` — landing page
-- `/lynx-app/` — full 55-spinner catalog as a standalone Lynx app
-- `/deck/` — the hackathon deck (architecture, code-reuse math, harness techniques)
+- `/` landing page
+- `/lynx-app/` full 55-spinner catalog as a standalone Lynx app
+- `/deck/` the hackathon deck (architecture, code-reuse math, harness techniques)
 
-> **Note** — Lynx for Web uses `SharedArrayBuffer`, which requires the page to be cross-origin isolated (`COOP: same-origin` + `COEP: require-corp`). `pnpm preso` runs a small Python server (`presentation/serve.py`) that sets those headers. On GitHub Pages, a service-worker shim (`presentation/lynx-app/coi-serviceworker.js`) installs the headers on the fly.
+> **Note.** Lynx for Web uses `SharedArrayBuffer`, which requires the page to be cross-origin isolated (`COOP: same-origin` + `COEP: require-corp`). `pnpm preso` runs a small Python server (`presentation/serve.py`) that sets those headers. On GitHub Pages, a service-worker shim (`presentation/lynx-app/coi-serviceworker.js`) installs the headers on the fly.
 
 ---
 
@@ -83,14 +85,14 @@ The landing page at `presentation/index.html` is what ships to GitHub Pages. It 
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  LAYER 1 — Spinner data (src/data/)                         │
+│  LAYER 1: Spinner data (src/data/)                          │
 │  55 pure-TS files. { name, frames, interval, category }     │
 │  Zero React. Zero platform imports. 100% shared.            │
 └─────────────────────────────────────────────────────────────┘
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  LAYER 2 — Animation hook (src/hooks/useSpinnerFrame.ts)    │
+│  LAYER 2: Animation hook (src/hooks/useSpinnerFrame.ts)     │
 │  10 lines. Imports from 'react'.                            │
 │  Rspeedy aliases 'react' → '@lynx-js/react' in Lynx build.  │
 │  One file, two runtimes.                                    │
@@ -99,7 +101,7 @@ The landing page at `presentation/index.html` is what ships to GitHub Pages. It 
                   ┌─────────┴──────────┐
                   ▼                    ▼
    ┌──────────────────────┐  ┌──────────────────────┐
-   │ LAYER 3a — RN        │  │ LAYER 3b — Lynx      │
+   │ LAYER 3a: RN         │  │ LAYER 3b: Lynx       │
    │ src/components/      │  │ src/lynx/Spinner.tsx │
    │   spinners/          │  │ + index.tsx          │
    │ <View>/<Text>,       │  │ <view>/<text>,       │
@@ -107,7 +109,7 @@ The landing page at `presentation/index.html` is what ships to GitHub Pages. It 
    └──────────────────────┘  └──────────────────────┘
 ```
 
-**The fork is intentional** — `<View>` vs `<view>`, numeric styles vs CSS strings, `style={[...]}` arrays vs flat `className`. These aren't bridgeable via aliasing. They require different JSX *and* different style value formats. So we fork — but only there.
+**The fork is intentional.** `<View>` vs `<view>`, numeric styles vs CSS strings, `style={[...]}` arrays vs flat `className`. These aren't bridgeable via aliasing. They require different JSX *and* different style value formats. So we fork, but only there.
 
 [Full architecture doc with decision log →](./docs/LYNX_PORT.md)
 
@@ -147,7 +149,7 @@ This repo is a worked example of porting a JS UI library to a new runtime with m
 1. **Architecture doc first.** Write the layered map + decision log + numbered implementation order *before* touching code.
 2. **Find the fork line.** Cluster everything platform-agnostic (data, types, pure hooks). Push it into one shared tree. Only fork at the JSX + style-value boundary.
 3. **One build-time alias replaces one platform shim.** `'react' → '@lynx-js/react'` unlocks the shared hook. Prefer aliasing over abstracting.
-4. **One commit per user story, always end with a runnable artifact.** Bundle size, screenshot, byte-identity check — never "tests pass."
+4. **One commit per user story, always end with a runnable artifact.** Bundle size, screenshot, byte-identity check. Never "tests pass."
 5. **Subagents for platform docs.** Dispatch Explore + the platform's MCP (here: `lynx-docs`) for element reference, instead of web-searching.
 6. **Verify visually, every step.** Bracket every "feature complete" claim with a screenshot or recording of the running demo. Compile is not done.
 7. **Run the agent in a Ralph loop with a goal hook.** One US per turn, harness blocks stop until the goal is met. Walk away, come back to a finished port.
@@ -164,8 +166,8 @@ All spinners share the same interface:
 |------|------|------|---------|-------------|
 | `size` | `number` | `number` | `24` | Font size of the spinner character |
 | `color` | `string` | `string` | `"#fff"` | Color of the spinner |
-| `style` | `StyleProp<ViewStyle>` | — | — | Outer container style (RN) |
-| `className` | — | `string` | — | Outer container class (Lynx) |
+| `style` | `StyleProp<ViewStyle>` | n/a | n/a | Outer container style (RN) |
+| `className` | n/a | `string` | n/a | Outer container class (Lynx) |
 
 ### Container sizing
 
@@ -187,10 +189,10 @@ Spinners render Unicode characters whose pixel width depends on font rendering. 
 
 ## Why text-based spinners?
 
-- **AI agent streams** — show activity while waiting for LLM responses
-- **CLI-style UIs** — give your app a developer aesthetic
-- **Lightweight loading states** — no SVG, no Lottie, no heavy assets
-- **Monospace layouts** — pair with code editors or terminal screens
+- **AI agent streams.** Show activity while waiting for LLM responses.
+- **CLI-style UIs.** Give your app a developer aesthetic.
+- **Lightweight loading states.** No SVG, no Lottie, no heavy assets.
+- **Monospace layouts.** Pair with code editors or terminal screens.
 
 ---
 

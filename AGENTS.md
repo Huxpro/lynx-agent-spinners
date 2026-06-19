@@ -7,7 +7,7 @@ Originally built for React Native/Expo, now being ported to support LynxJS (Reac
 
 ## Key Documents
 
-- `docs/LYNX_PORT.md` — Architecture: shared layers, platform boundaries, decision log
+- `docs/LYNX_PORT.md`: Architecture. Shared layers, platform boundaries, decision log.
 
 ## General Rules
 

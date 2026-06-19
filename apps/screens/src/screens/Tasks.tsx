@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function TasksScreen({ Spinner, data }: Props) {
-  // Terminal screen is intentionally always dark — it represents a
+  // Terminal screen is intentionally always dark. It represents a
   // developer's terminal, which is dark regardless of host theme.
   return (
     <view className="term-root">

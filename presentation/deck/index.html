@@ -115,7 +115,7 @@
   .pill.lynx   { color: var(--lynx); border-color: rgba(255,90,95,0.4); background: rgba(255,90,95,0.08); }
   .pill.green  { color: var(--green); border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.08); }
 
-  /* ============ Slide 1 — hero with live spinners ============ */
+  /* ============ Slide 1 · hero with live spinners ============ */
   .hero {
     background: radial-gradient(80% 100% at 50% 0%, #1a1a2e 0%, #0a0a0a 70%);
   }
@@ -424,27 +424,27 @@
 </nav>
 <div class="deck">
 
-  <!-- SLIDE 1 — LIVE DEMO -->
+  <!-- SLIDE 1 · LIVE DEMO -->
   <section class="slide hero" id="s1">
     <div class="slide-num">01 / 09</div>
     <div class="eyebrow">Hackathon · live demo</div>
     <h1 class="hero-title">55 spinners.<br/>Two runtimes. One source of truth.</h1>
-    <p class="hero-sub"><code>expo-agent-spinners</code> — originally a React&nbsp;Native + Expo library — ported to <strong>LynxJS</strong> by sharing every byte of frame data, every byte of animation logic, and forking only the 20-line renderer at the JSX boundary.</p>
+    <p class="hero-sub"><code>expo-agent-spinners</code> (originally a React&nbsp;Native + Expo library) ported to <strong>LynxJS</strong> by sharing every byte of frame data, every byte of animation logic, and forking only the 20-line renderer at the JSX boundary.</p>
     <div id="live-grid" class="grid" aria-label="All 55 spinners running live in your browser"></div>
     <div class="hero-stats">
-      <div class="stat shared"><div class="n" id="stat-shared">—</div><div class="l">Shared LOC</div></div>
-      <div class="stat lynx"><div class="n" id="stat-fork">—</div><div class="l">Lynx-only LOC</div></div>
+      <div class="stat shared"><div class="n" id="stat-shared">…</div><div class="l">Shared LOC</div></div>
+      <div class="stat lynx"><div class="n" id="stat-fork">…</div><div class="l">Lynx-only LOC</div></div>
       <div class="stat"><div class="n" id="stat-count">55</div><div class="l">Spinners</div></div>
       <div class="stat"><div class="n">5</div><div class="l">Commits</div></div>
     </div>
   </section>
 
-  <!-- SLIDE 2 — THE PITCH -->
+  <!-- SLIDE 2 · THE PITCH -->
   <section class="slide" id="s2">
     <div class="slide-num">02 / 09</div>
     <div class="eyebrow">The pitch</div>
     <h2>What if porting a React&nbsp;Native UI library to a brand-new runtime took five commits?</h2>
-    <p class="lede" style="margin-bottom: 32px;">The bet: when an existing JS-based UI library is small and mostly data-driven, you can <strong>share by default and fork only at the rendering boundary</strong> — no rewrites, no fork divergence, no per-spinner duplication. The same hook runs on both runtimes via a single build-time alias.</p>
+    <p class="lede" style="margin-bottom: 32px;">The bet: when an existing JS-based UI library is small and mostly data-driven, you can <strong>share by default and fork only at the rendering boundary</strong>. No rewrites, no fork divergence, no per-spinner duplication. The same hook runs on both runtimes via a single build-time alias.</p>
     <div class="two-col">
       <div class="platform-card rn">
         <h3><span class="badge rn">RN</span> React&nbsp;Native + Expo</h3>
@@ -457,12 +457,12 @@
     </div>
   </section>
 
-  <!-- SLIDE 3 — BEFORE / AFTER (real Lynx-for-Web embed!) -->
+  <!-- SLIDE 3 · BEFORE / AFTER (real Lynx-for-Web embed!) -->
   <section class="slide" id="s3">
     <div class="slide-num">03 / 09</div>
     <div class="eyebrow">Before · After · Live</div>
     <h2>Original Expo demo. Same code, running on Lynx for Web.</h2>
-    <p class="lede">Left: the original Expo recording. Right: the <em>actual</em> Lynx demo app — the same <code>apps/lynx</code> bundle that runs on iOS/Android — rendered in this browser via <code>@lynx-js/web-core</code>.</p>
+    <p class="lede">Left: the original Expo recording. Right: the <em>actual</em> Lynx demo app (the same <code>apps/lynx</code> bundle that runs on iOS/Android), rendered in this browser via <code>@lynx-js/web-core</code>.</p>
 
     <div style="margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start;">
       <div>
@@ -473,7 +473,7 @@
       <div>
         <h3 style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><span class="badge lynx" style="white-space:nowrap;padding:0 10px;width:auto;font-size:11px;">LYNX&nbsp;FOR&nbsp;WEB</span><span>Live · <code>main.web.bundle</code></span></h3>
         <p style="font-size: 13px; color: var(--dim); margin: 6px 0 14px;">
-          Real ReactLynx app running in this browser tab — <a href="../lynx-app/" target="_blank" style="color: var(--accent2);">open standalone ↗</a>
+          Real ReactLynx app running in this browser tab. <a href="../lynx-app/" target="_blank" style="color: var(--accent2);">Open standalone ↗</a>
         </p>
         <div style="border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: #0a0a0a; max-width: 380px; aspect-ratio: 390 / 720; position: relative;">
           <iframe src="../lynx-app/" style="border: 0; width: 100%; height: 100%; display: block;" loading="lazy"></iframe>
@@ -485,7 +485,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 4 — ARCHITECTURE -->
+  <!-- SLIDE 4 · ARCHITECTURE -->
   <section class="slide" id="s4">
     <div class="slide-num">04 / 09</div>
     <div class="eyebrow">Architecture</div>
@@ -495,7 +495,7 @@
       <div class="layer shared">
         <div class="lnum">L1</div>
         <div class="body">
-          <div class="label">Spinner data — <code>src/data/</code> (55 files)</div>
+          <div class="label">Spinner data: <code>src/data/</code> (55 files)</div>
           <div class="desc">Pure TypeScript. <code>{ name, frames, interval, category }</code>. Zero React, zero platform imports. Byte-identical to the original FRAMES arrays.</div>
         </div>
         <div class="pct">100%</div>
@@ -503,7 +503,7 @@
       <div class="layer alias">
         <div class="lnum">L2</div>
         <div class="body">
-          <div class="label">Animation hook — <code>src/hooks/useSpinnerFrame.ts</code> (10 lines)</div>
+          <div class="label">Animation hook: <code>src/hooks/useSpinnerFrame.ts</code> (10 lines)</div>
           <div class="desc">Imports from <code>'react'</code>. In the Lynx build, Rspeedy aliases <code>'react'</code> → <code>'@lynx-js/react'</code>. One file, two runtimes.</div>
         </div>
         <div class="pct">100%<br/><small style="font-size:11px;color:var(--dim);font-weight:500;">via alias</small></div>
@@ -511,14 +511,14 @@
       <div class="layer fork">
         <div class="lnum">L3</div>
         <div class="body">
-          <div class="label">Platform renderer — <code>src/lynx/Spinner.tsx</code> + <code>src/components/spinners/</code></div>
+          <div class="label">Platform renderer: <code>src/lynx/Spinner.tsx</code> + <code>src/components/spinners/</code></div>
           <div class="desc">The <em>only</em> fork. Different JSX, different style value formats. ~20 lines on the Lynx side.</div>
         </div>
         <div class="pct">forked</div>
       </div>
     </div>
 
-    <pre style="margin-top: 32px; max-width: 950px;"><span class="c">// apps/lynx/lynx.config.ts — the single line that unlocks layer 2.</span>
+    <pre style="margin-top: 32px; max-width: 950px;"><span class="c">// apps/lynx/lynx.config.ts: the single line that unlocks layer 2.</span>
 <span class="k">export default</span> <span class="n">defineConfig</span>({
   plugins: [<span class="n">pluginReactLynx</span>(), <span class="n">pluginQRCode</span>(...)],
   resolve: {
@@ -527,12 +527,12 @@
 })</pre>
   </section>
 
-  <!-- SLIDE 5 — THE FORK -->
+  <!-- SLIDE 5 · THE FORK -->
   <section class="slide" id="s5">
     <div class="slide-num">05 / 09</div>
-    <div class="eyebrow">The fork — and why it's intentional</div>
+    <div class="eyebrow">The fork, and why it's intentional</div>
     <h2>20 lines of JSX, four incompatibilities.</h2>
-    <p class="lede">These aren't bridgeable by aliasing — they require different JSX <em>and</em> different style value formats. So we fork. But only here.</p>
+    <p class="lede">These aren't bridgeable by aliasing; they require different JSX <em>and</em> different style value formats. So we fork. But only here.</p>
 
     <table class="diff">
       <thead>
@@ -543,7 +543,7 @@
         <tr><td>Style values</td><td><code>fontSize: 24</code> (number)</td><td><code>fontSize: '24px'</code> (CSS string)</td></tr>
         <tr><td>Style composition</td><td><code>style={[obj1, obj2]}</code></td><td><code>className</code> or flat <code>style</code></td></tr>
         <tr><td><code>lineHeight</code></td><td><code>size * 1.3</code> (number)</td><td><code>`${size * 1.3}px`</code> (string)</td></tr>
-        <tr><td>Multi-char spinners</td><td>—</td><td>need <code>white-space: nowrap</code></td></tr>
+        <tr><td>Multi-char spinners</td><td>n/a</td><td>need <code>white-space: nowrap</code></td></tr>
       </tbody>
     </table>
 
@@ -602,7 +602,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 6 — CODE REUSE RATE -->
+  <!-- SLIDE 6 · CODE REUSE RATE -->
   <section class="slide" id="s6">
     <div class="slide-num">06 / 09</div>
     <div class="eyebrow">Code reuse · measured</div>
@@ -642,22 +642,22 @@
       </div>
     </div>
     <p style="margin-top: 24px; color: var(--dim); font-size: 13px; max-width: 900px;">
-      <strong>Caveat — the demo app is fork territory.</strong> <code>App.tsx</code> (RN, 339 lines, <code>StyleSheet</code> + <code>ScrollView</code> + <code>Pressable</code>) and <code>apps/lynx/src/App.tsx</code> + <code>App.css</code> (97 + 109 lines, <code>&lt;scroll-view&gt;</code> + <code>bindtap</code> + CSS) are intentionally platform-shaped. The 87% figure is for the <em>library</em>, which is what consumers ship.
+      <strong>Caveat: the demo app is fork territory.</strong> <code>App.tsx</code> (RN, 339 lines, <code>StyleSheet</code> + <code>ScrollView</code> + <code>Pressable</code>) and <code>apps/lynx/src/App.tsx</code> + <code>App.css</code> (97 + 109 lines, <code>&lt;scroll-view&gt;</code> + <code>bindtap</code> + CSS) are intentionally platform-shaped. The 87% figure is for the <em>library</em>, which is what consumers ship.
     </p>
   </section>
 
-  <!-- SLIDE 7 — THE FIVE STEPS -->
+  <!-- SLIDE 7 · THE FIVE STEPS -->
   <section class="slide" id="s7">
     <div class="slide-num">07 / 09</div>
     <div class="eyebrow">Execution · 5 commits, 5 user stories</div>
     <h2>One commit per layer. Every commit ends in a buildable, visible artifact.</h2>
     <div class="commits">
-      <div><span class="sha">89457a4</span> · <span class="us">US-001</span> Project scaffolding <small>— create <code>src/data/</code>, <code>src/hooks/</code>, <code>src/lynx/</code>, <code>apps/lynx/</code> via <code>create-rspeedy</code>; alias <code>react</code> → <code>@lynx-js/react</code></small></div>
-      <div><span class="sha">077f3c6</span> · <span class="us">US-002</span> Extract all 55 spinner definitions <small>— <em>"All frame arrays verified byte-identical to originals (55/55 OK)"</em></small></div>
-      <div><span class="sha">bbf3935</span> · <span class="us">US-003</span> Shared animation hook <small>— 10 lines, imports from <code>'react'</code>, works on both runtimes</small></div>
-      <div><span class="sha">9852d1e</span> · <span class="us">US-004</span> Lynx renderer + pilot DotsSpinner <small>— produces a valid <code>.lynx.bundle</code> (80.3 kB), DotsSpinner runs in LynxExplorer</small></div>
-      <div><span class="sha">b7c227f</span> · <span class="us">US-005</span> Lynx demo app — exact clone of Expo demo <small>— full grid + category tabs, bundle 102.8 kB</small></div>
-      <div style="margin-top: 18px; color: var(--dim);">— then —</div>
+      <div><span class="sha">89457a4</span> · <span class="us">US-001</span> Project scaffolding <small>· create <code>src/data/</code>, <code>src/hooks/</code>, <code>src/lynx/</code>, <code>apps/lynx/</code> via <code>create-rspeedy</code>; alias <code>react</code> → <code>@lynx-js/react</code></small></div>
+      <div><span class="sha">077f3c6</span> · <span class="us">US-002</span> Extract all 55 spinner definitions <small>· <em>"All frame arrays verified byte-identical to originals (55/55 OK)"</em></small></div>
+      <div><span class="sha">bbf3935</span> · <span class="us">US-003</span> Shared animation hook <small>· 10 lines, imports from <code>'react'</code>, works on both runtimes</small></div>
+      <div><span class="sha">9852d1e</span> · <span class="us">US-004</span> Lynx renderer + pilot DotsSpinner <small>· produces a valid <code>.lynx.bundle</code> (80.3 kB), DotsSpinner runs in LynxExplorer</small></div>
+      <div><span class="sha">b7c227f</span> · <span class="us">US-005</span> Lynx demo app: exact clone of Expo demo <small>· full grid + category tabs, bundle 102.8 kB</small></div>
+      <div style="margin-top: 18px; color: var(--dim);">then:</div>
       <div><span class="sha">519ab47</span> fix: <code>&lt;scroll-view&gt;</code> + multi-char direction <small style="color:var(--yellow);">found only by visual verification</small></div>
       <div><span class="sha">05b8d51</span> fix: scroll-view height + cell spacing</div>
       <div><span class="sha">b5db6a7</span> chore: remove scaffold leftovers & ralph-loop artifacts</div>
@@ -668,12 +668,12 @@
     </p>
   </section>
 
-  <!-- SLIDE 8 — HARNESS TECHNIQUES -->
+  <!-- SLIDE 8 · HARNESS TECHNIQUES -->
   <section class="slide" id="s8">
     <div class="slide-num">08 / 09</div>
     <div class="eyebrow">Harness Engineering · what made the port boring</div>
     <h2>Eight techniques. Boring on purpose.</h2>
-    <p class="lede">"Slopfork" — quickly forking a JS app into a new runtime by sharing maximally — only works when the harness around the agent enforces discipline. Here's what we used.</p>
+    <p class="lede">"Slopfork" (quickly forking a JS app into a new runtime by sharing maximally) only works when the harness around the agent enforces discipline. Here's what we used.</p>
 
     <div class="technique-grid">
       <div class="tcard">
@@ -691,7 +691,7 @@
       <div class="tcard">
         <div class="tnum">T-03 · ONE COMMIT PER STORY</div>
         <h3>Self-contained, build-verified, narrate the artifact</h3>
-        <p>Every <code>lynx-port:</code> commit message names a <em>runtime-visible</em> output — bundle size, byte-identity check, "runs in LynxExplorer." Compile-only doesn't count.</p>
+        <p>Every <code>lynx-port:</code> commit message names a <em>runtime-visible</em> output: bundle size, byte-identity check, "runs in LynxExplorer." Compile-only doesn't count.</p>
       </div>
 
       <div class="tcard">
@@ -708,7 +708,7 @@
 
       <div class="tcard">
         <div class="tnum">T-06 · END-TO-END VERIFY, EVERY STEP</div>
-        <h3>"编译通过 ≠ 能用" — build the example, look at it</h3>
+        <h3>"编译通过 ≠ 能用". Build the example, look at it.</h3>
         <p>From the user's global CLAUDE.md, repeated in the project's CLAUDE.md: "Verify visually in the demo app after every change. <code>pnpm build</code> passing is not sufficient." This caught both post-launch fixes (<code>519ab47</code>, <code>05b8d51</code>).</p>
       </div>
 
@@ -721,12 +721,12 @@
       <div class="tcard">
         <div class="tnum">T-08 · RALPH AUTONOMOUS LOOP</div>
         <h3>Long-horizon work without a babysitter</h3>
-        <p>The cleanup commit "<em>remove stale ralph-loop artifacts</em>" confirms the port ran through a Ralph autonomous loop — the agent advanced one US per turn, with the harness blocking stop until the user-defined goal was met (same hook used to ship this very deck).</p>
+        <p>The cleanup commit "<em>remove stale ralph-loop artifacts</em>" confirms the port ran through a Ralph autonomous loop. The agent advanced one US per turn, with the harness blocking stop until the user-defined goal was met (same hook used to ship this very deck).</p>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 9 — SLOPFORK PLAYBOOK -->
+  <!-- SLIDE 9 · SLOPFORK PLAYBOOK -->
   <section class="slide closing" id="s9">
     <div class="slide-num">09 / 09</div>
     <div class="eyebrow">The slopfork playbook</div>
@@ -737,7 +737,7 @@
       <li><strong style="color: var(--shared);">Architecture doc first.</strong> Write the layered map + decision log + numbered implementation order before touching code. <em>The doc is the plan.</em></li>
       <li><strong style="color: var(--shared);">Find the fork line.</strong> Cluster everything platform-agnostic (data, types, pure hooks). Push it down into one shared tree. Only fork at the JSX + style-value boundary.</li>
       <li><strong style="color: var(--shared);">One build-time alias replaces one platform shim.</strong> <code>'react' → '@lynx-js/react'</code> unlocks the shared hook. Prefer aliasing over abstracting.</li>
-      <li><strong style="color: var(--shared);">One commit per user story, always end with a runnable artifact.</strong> Bundle size, screenshot, byte-identity check — never "tests pass."</li>
+      <li><strong style="color: var(--shared);">One commit per user story, always end with a runnable artifact.</strong> Bundle size, screenshot, byte-identity check. Never "tests pass."</li>
       <li><strong style="color: var(--shared);">Subagents for platform docs.</strong> Dispatch Explore + the platform's MCP (here: <code>lynx-docs</code>) for element reference, instead of web-searching.</li>
       <li><strong style="color: var(--shared);">Verify visually, every step.</strong> Bracket every "feature complete" claim with a screenshot or recording of the running demo. Compile is not done.</li>
       <li><strong style="color: var(--shared);">Run the agent in a Ralph loop with a goal hook.</strong> One US per turn, harness blocks stop until the goal is met. Walk away, come back to a finished port.</li>
@@ -797,7 +797,7 @@
 
   init().catch((err) => {
     console.error(err);
-    document.getElementById('live-grid').innerHTML = '<div style="color: var(--lynx); padding: 20px;">Could not load spinners.json — run <code>node presentation/extract-spinners.mjs</code> first.</div>';
+    document.getElementById('live-grid').innerHTML = '<div style="color: var(--lynx); padding: 20px;">Could not load spinners.json. Run <code>node presentation/extract-spinners.mjs</code> first.</div>';
   });
 </script>
 
