@@ -166,15 +166,8 @@ a { color: inherit; }
 
 /* ─── Hero ─── */
 .hero {
-  display: grid;
-  grid-template-columns: 1.35fr 1fr;
-  grid-template-rows: auto auto;
-  gap: clamp(20px, 4vw, 60px) clamp(28px, 5vw, 80px);
-  align-items: end;
   margin-bottom: clamp(80px, 12vw, 160px);
-}
-@media (max-width: 880px) {
-  .hero { grid-template-columns: 1fr; }
+  max-width: 920px;
 }
 /* Fraunces axes tuned for restraint: lower opsz (less display-y), SOFT 0
    (less sign-painter, more docs-team), wght 420 (cleaner verticals). The
@@ -184,11 +177,10 @@ a { color: inherit; }
   font-family: var(--serif);
   font-weight: 420;
   font-variation-settings: "opsz" 96, "SOFT" 0;
-  font-size: clamp(56px, 9.5vw, 132px);
+  font-size: clamp(56px, 9.5vw, 128px);
   line-height: 0.94;
   letter-spacing: -0.022em;
   color: var(--ink);
-  grid-column: 1;
 }
 .hero-title em {
   font-style: italic;
@@ -196,72 +188,31 @@ a { color: inherit; }
   font-variation-settings: "opsz" 96, "SOFT" 30;
   color: var(--accent);
 }
-.hero-title .live-mark {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  vertical-align: middle;
-  margin-left: 14px;
-  padding: 4px 10px 4px 8px;
-  border: 1px solid var(--accent);
-  border-radius: 999px;
-  font-family: var(--mono);
-  font-size: 0.18em;
-  letter-spacing: 0.18em;
-  color: var(--accent);
-  font-style: normal;
-  font-weight: 500;
-  font-variation-settings: normal;
-  position: relative;
-  top: -0.18em;
-}
-.hero-title .live-mark .dot {
-  width: 6px; height: 6px; border-radius: 999px;
-  background: var(--accent);
-  box-shadow: 0 0 0 0 currentColor;
-  animation: pulse 1600ms cubic-bezier(0.16, 1, 0.3, 1) infinite;
-}
-@keyframes pulse {
-  0%, 100% { transform: scale(1);   opacity: 1;   }
-  50%      { transform: scale(0.6); opacity: 0.5; }
+
+.hero-tagline {
+  margin-top: clamp(28px, 4vw, 40px);
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 60ch;
 }
 
-.hero-meta {
-  grid-column: 1;
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 8px 18px;
-  align-items: start;
-  max-width: 560px;
-}
-.hero-meta .k {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: var(--ink-mute);
-  text-transform: uppercase;
-  padding-top: 4px;
-}
-.hero-meta .v {
-  font-family: var(--sans);
-  font-size: 15.5px;
-  color: var(--ink);
-  line-height: 1.5;
-}
-.hero-meta .v a {
+/* Inline link style used in tagline + section ledes */
+.link {
   color: var(--accent-3);
   text-decoration: none;
   border-bottom: 1px solid var(--accent-2);
   padding-bottom: 1px;
 }
-.hero-meta .v a:hover { border-color: var(--accent); }
+.link:hover { border-color: var(--accent); }
+.link code { color: inherit; font-family: inherit; }
 
 .hero-cta {
-  grid-column: 1;
+  margin-top: clamp(26px, 3.5vw, 36px);
   display: flex;
   gap: 14px;
   align-items: baseline;
-  margin-top: 8px;
+  flex-wrap: wrap;
 }
 .hero-cta .install {
   font-family: var(--mono);
@@ -291,47 +242,41 @@ a { color: inherit; }
 }
 .hero-cta .browse:hover::after { transform: translateX(3px); }
 
-/* The hero embed — first signature screen, asymmetric, floats right */
-.hero-embed {
-  grid-column: 2;
-  grid-row: 1 / span 3;
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  position: relative;
+/* Use-it snippet — sits below the install row, doubles as the first
+   piece of API the visitor sees. */
+.use-it {
+  margin-top: clamp(28px, 4vw, 44px);
+  max-width: 640px;
 }
-@media (max-width: 880px) {
-  .hero-embed { grid-column: 1; grid-row: auto; min-height: 440px; }
-}
-/* Resizable device — drag the bottom-right corner to widen/narrow the
-   lynx-view. Each embed is its own independent Lynx container with its
-   own dual-thread runtime, so the screens reflow per-instance. */
-.hero-embed .device {
-  width: 100%;
-  aspect-ratio: 390 / 720;
-  max-width: 380px;
-  min-width: 240px;
-  margin-left: auto;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow:
-    0 1px 0 var(--line),
-    0 30px 60px -20px rgba(20, 17, 14, 0.12);
-  resize: horizontal;
-}
-.hero-embed .device lynx-view { width: 100%; height: 100%; display: block; }
-.hero-embed .caption {
+.use-it-label {
   font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.12em;
+  font-size: 11px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-mute);
-  text-align: right;
-  margin-top: 14px;
-  margin-right: 6px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 10px;
 }
+.use-it pre {
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.7;
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 18px 20px;
+  border-radius: 8px;
+  color: var(--ink);
+  overflow-x: auto;
+  max-width: 100%;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.use-it .t-k { color: var(--accent-3); }              /* keyword */
+.use-it .t-s { color: oklch(0.50 0.13 145); }         /* string  */
+.use-it .t-c { color: var(--ink); font-weight: 500; } /* component name */
+.use-it .t-n { color: var(--accent-3); }              /* numeric */
+:root[data-theme="dark"] .use-it .t-s { color: oklch(0.78 0.12 145); }
 
 /* ─── Section header — used by all sections below ─── */
 .sec-h {
@@ -653,8 +598,8 @@ a { color: inherit; }
       <span class="glyph" id="wm-glyph">⠋</span>&nbsp;lynx-agent-spinners
     </div>
     <div class="nav-links">
-      <a href="#screens">screens</a>
       <a href="#catalogue">catalogue</a>
+      <a href="#screens">in context</a>
       <a href="https://github.com/Huxpro/lynx-agent-spinners" target="_blank" rel="noopener">github ↗</a>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -671,42 +616,60 @@ a { color: inherit; }
   <!-- HERO -->
   <header class="hero">
     <h1 class="hero-title">
-      Spinners <em>for</em><br/>agents.<span class="live-mark"><span class="dot"></span>LIVE</span>
+      Spinners <em>for</em><br/>agents.
     </h1>
 
-    <div class="hero-meta">
-      <span class="k">What</span>
-      <span class="v">55 terminal-style loaders for AI chat, tool-use streams, and CLI copilots. One element. Four families.</span>
-      <span class="k">How</span>
-      <span class="v">Built on <a href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a> — the same component renders on iOS, Android, and Web. The embed beside this paragraph is the actual ReactLynx bundle, running here through <code>&lt;lynx-view&gt;</code>.</span>
-      <span class="k">Why</span>
-      <span class="v">Text spinners read like the agent is thinking out loud — quieter than skeletons, lighter than Lottie.</span>
-    </div>
+    <p class="hero-tagline">
+      55 drop-in loaders for AI chat, tool-use streams, and CLI copilots.
+      Built on <a class="link" href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a>.
+    </p>
 
     <div class="hero-cta">
-      <code class="install" onclick="navigator.clipboard.writeText('npm i lynx-agent-spinners')">npm i lynx-agent-spinners</code>
+      <code class="install" data-pkg="npm i lynx-agent-spinners">npm i lynx-agent-spinners</code>
       <a class="browse" href="#catalogue">Browse all 55</a>
     </div>
 
-    <aside class="hero-embed">
-      <div class="device">
-        <lynx-view class="lv" data-screen="chat" url="./screens/main.web.bundle"></lynx-view>
-      </div>
-      <p class="caption">↑ live · &lt;lynx-view&gt; · drag bottom-right to resize</p>
-    </aside>
+    <div class="use-it">
+      <span class="use-it-label">Use it</span>
+      <pre><span class="t-k">import</span> { DotsSpinner } <span class="t-k">from</span> <span class="t-s">'lynx-agent-spinners/lynx'</span>;
+
+&lt;<span class="t-c">DotsSpinner</span> size={<span class="t-n">20</span>} color=<span class="t-s">"currentColor"</span> /&gt;</pre>
+    </div>
   </header>
 
-  <!-- SCREENS — in-context demos -->
-  <section id="screens" class="screens">
+  <!-- CATALOGUE -->
+  <section id="catalogue" class="catalogue">
     <div class="sec-h">
       <span class="num">01</span>
-      <span class="label">On a real agent timeline</span>
+      <span class="label">Catalogue · 55 spinners, 4 families</span>
       <span class="rule"></span>
     </div>
 
-    <h2 class="sec-title">Three places these <em>belong</em>.</h2>
+    <h2 class="sec-title">Every glyph, running live. <em>Tap to copy.</em></h2>
     <p class="sec-lede">
-      Each frame below is a ReactLynx app rendered through <code>&lt;lynx-view&gt;</code> — the same bundles that ship to mobile, running natively in your browser. Same glyphs, same intervals, in their working habitat.
+      Each tile below is the actual frame data — the same array the in-context demos below are reading from. Tap any cell to copy the import + JSX snippet.
+    </p>
+
+    <div id="cat-filters" class="cat-filters"></div>
+    <div id="cat-grid" class="cat-grid"></div>
+    <p class="cat-hint">↑ tap any cell to copy <code style="color: var(--accent-3);">&lt;DotsSpinner size={20} color="#fff" /&gt;</code></p>
+  </section>
+
+  <!-- IN CONTEXT — the three signature screens -->
+  <section id="screens" class="screens">
+    <div class="sec-h">
+      <span class="num">02</span>
+      <span class="label">In context</span>
+      <span class="rule"></span>
+    </div>
+
+    <h2 class="sec-title"><em>In context.</em></h2>
+    <p class="sec-lede">
+      Each screen below is a
+      <a class="link" href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a>
+      app rendered through
+      <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a> —
+      the same bundles that ship to native, running in this tab. Drag the bottom-right corner of any device to resize it; each embed is its own independent Lynx container and reflows independently.
     </p>
 
     <article class="screen">
@@ -765,38 +728,19 @@ a { color: inherit; }
     </article>
   </section>
 
-  <!-- CATALOGUE -->
-  <section id="catalogue" class="catalogue">
-    <div class="sec-h">
-      <span class="num">02</span>
-      <span class="label">Catalogue · 55 spinners, 4 families</span>
-      <span class="rule"></span>
-    </div>
-
-    <h2 class="sec-title">Every glyph, running live. <em>Tap to copy.</em></h2>
-    <p class="sec-lede">
-      Each tile below is the actual frame data — same array the chat / tools / tasks screens above are reading from. Tap any cell to copy the import + JSX snippet.
-    </p>
-
-    <div id="cat-filters" class="cat-filters"></div>
-    <div id="cat-grid" class="cat-grid"></div>
-    <p class="cat-hint">↑ tap any cell to copy <code style="color: var(--accent-3);">&lt;DotsSpinner size={20} color="#fff" /&gt;</code></p>
-  </section>
-
   <!-- COLOPHON / FOOTNOTE -->
   <footer class="colophon">
     <div>
-      <h4>Use it</h4>
-      <p style="margin-bottom: 16px;">
-        ReactLynx (iOS · Android · HarmonyOS · Web) — and React Native, via the same shared frame data.
-      </p>
-      <pre style="font-family: var(--mono); font-size: 12.5px; background: var(--card); border: 1px solid var(--line); padding: 14px 16px; border-radius: 6px; color: var(--ink); white-space: pre-wrap; word-break: break-word; max-width: 100%;">import { DotsSpinner } from 'lynx-agent-spinners/lynx';
-
-&lt;DotsSpinner size={20} color="currentColor" /&gt;</pre>
+      <h4>Stack</h4>
+      <ul>
+        <li><a href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a> — the cross-platform UI engine</li>
+        <li><a href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a> — the React framework on Lynx</li>
+        <li><a href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a> — the custom element that mounts a Lynx bundle in any web page</li>
+      </ul>
     </div>
 
     <div>
-      <h4>Run it locally</h4>
+      <h4>Run it</h4>
       <ul>
         <li><a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a> — three commands, three demos</li>
         <li><a href="https://github.com/Huxpro/lynx-agent-spinners" target="_blank" rel="noopener">GitHub repository</a></li>
@@ -888,6 +832,8 @@ a { color: inherit; }
   // ─── Install-line copy feedback ───────────────────────────────────
   document.querySelectorAll('.install').forEach(el => {
     el.addEventListener('click', () => {
+      const pkg = el.dataset.pkg || el.textContent.trim();
+      if (navigator.clipboard) navigator.clipboard.writeText(pkg);
       const original = el.textContent;
       el.textContent = '✓ copied to clipboard';
       setTimeout(() => { el.textContent = original; }, 1100);
