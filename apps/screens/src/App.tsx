@@ -11,6 +11,7 @@ interface Payload {
   screen?: string;
   accent?: string;
   theme?: 'light' | 'dark';
+  lang?: 'en' | 'zh';
 }
 
 export function App() {
@@ -22,14 +23,15 @@ export function App() {
 
   const screen = (cfg.screen ?? 'chat') as 'chat' | 'tools' | 'tasks';
   const theme = cfg.theme === 'dark' ? 'dark' : 'light';
+  const lang = cfg.lang === 'zh' ? 'zh' : 'en';
   const accent = cfg.accent ?? (theme === 'dark' ? '#e69d8c' : '#c14a3a');
 
   return (
     <page>
       <view className={`root theme-${theme}`} style={{ '--accent': accent } as Record<string, string>}>
-        {screen === 'chat'  && <ChatScreen theme={theme} accent={accent} Spinner={Spinner} data={data} />}
-        {screen === 'tools' && <ToolsScreen theme={theme} accent={accent} Spinner={Spinner} data={data} />}
-        {screen === 'tasks' && <TasksScreen theme={theme} accent={accent} Spinner={Spinner} data={data} />}
+        {screen === 'chat'  && <ChatScreen theme={theme} lang={lang} accent={accent} Spinner={Spinner} data={data} />}
+        {screen === 'tools' && <ToolsScreen theme={theme} lang={lang} accent={accent} Spinner={Spinner} data={data} />}
+        {screen === 'tasks' && <TasksScreen theme={theme} lang={lang} accent={accent} Spinner={Spinner} data={data} />}
       </view>
     </page>
   );
