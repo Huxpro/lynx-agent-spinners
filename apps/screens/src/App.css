@@ -194,16 +194,20 @@ page {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 14px;
+  gap: 18px;
   padding-top: 10px;
   padding-bottom: 10px;
   border-bottom: 0.5px solid var(--line-2);
 }
+/* Wide enough to hold a 5-char braille frame (sparkle, helix, fillsweep,
+   scan) at size 20 without the glyph overflowing into the label. Single-
+   char spinners just sit centred. */
 .tools-spinner-box {
-  width: 28px;
+  width: 64px;
   height: 28px;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 .tools-row-text {
   flex: 1;
