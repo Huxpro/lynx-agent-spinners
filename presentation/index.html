@@ -164,21 +164,33 @@ a { color: inherit; }
   border-color: var(--ink-fade);
 }
 
-/* ─── Hero ─── */
-.hero {
-  margin-bottom: clamp(80px, 12vw, 160px);
-  max-width: 920px;
+/* ─── First-screen: hero + catalogue grid in one viewport ─── */
+.first-screen {
+  margin-bottom: clamp(96px, 14vw, 180px);
 }
+/* Two-column hero band — title block left, use-it snippet right. */
+.hero-band {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: end;
+  margin-bottom: clamp(36px, 5vw, 64px);
+}
+@media (max-width: 880px) {
+  .hero-band { grid-template-columns: 1fr; align-items: start; }
+}
+.hero-text { min-width: 0; }
 /* Fraunces axes tuned for restraint: lower opsz (less display-y), SOFT 0
    (less sign-painter, more docs-team), wght 420 (cleaner verticals). The
    italic gets just a touch of softness to make the contrast with the
-   roman feel intentional rather than stylized. */
+   roman feel intentional rather than stylized. Slightly smaller now so
+   the title + use-it + 55-grid all land in one viewport. */
 .hero-title {
   font-family: var(--serif);
   font-weight: 420;
   font-variation-settings: "opsz" 96, "SOFT" 0;
-  font-size: clamp(56px, 9.5vw, 128px);
-  line-height: 0.94;
+  font-size: clamp(48px, 6.5vw, 92px);
+  line-height: 0.96;
   letter-spacing: -0.022em;
   color: var(--ink);
 }
@@ -190,11 +202,11 @@ a { color: inherit; }
 }
 
 .hero-tagline {
-  margin-top: clamp(28px, 4vw, 40px);
-  font-size: clamp(18px, 1.6vw, 22px);
-  line-height: 1.5;
+  margin-top: clamp(20px, 2.4vw, 28px);
+  font-size: clamp(16px, 1.25vw, 18px);
+  line-height: 1.55;
   color: var(--ink-soft);
-  max-width: 60ch;
+  max-width: 46ch;
 }
 
 /* Inline link style used in tagline + section ledes */
@@ -208,7 +220,7 @@ a { color: inherit; }
 .link code { color: inherit; font-family: inherit; }
 
 .hero-cta {
-  margin-top: clamp(26px, 3.5vw, 36px);
+  margin-top: clamp(22px, 2.8vw, 30px);
   display: flex;
   gap: 14px;
   align-items: baseline;
@@ -242,16 +254,14 @@ a { color: inherit; }
 }
 .hero-cta .browse:hover::after { transform: translateX(3px); }
 
-/* Use-it snippet — sits below the install row, doubles as the first
-   piece of API the visitor sees. */
-.use-it {
-  margin-top: clamp(28px, 4vw, 44px);
-  max-width: 640px;
-}
+/* Use-it snippet — sits in the right column of the hero band, paired
+   with the headline. First piece of API the visitor sees is also the
+   most useful one. */
+.use-it { min-width: 0; }
 .use-it-label {
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-mute);
   font-weight: 600;
@@ -260,11 +270,11 @@ a { color: inherit; }
 }
 .use-it pre {
   font-family: var(--mono);
-  font-size: 13.5px;
+  font-size: 13px;
   line-height: 1.7;
   background: var(--card);
   border: 1px solid var(--line);
-  padding: 18px 20px;
+  padding: 16px 18px;
   border-radius: 8px;
   color: var(--ink);
   overflow-x: auto;
@@ -272,6 +282,14 @@ a { color: inherit; }
   white-space: pre-wrap;
   word-break: break-word;
 }
+.use-it-note {
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-mute);
+  max-width: 44ch;
+}
+@media (max-width: 520px) { .hide-narrow { display: none; } }
 .use-it .t-k { color: var(--accent-3); }              /* keyword */
 .use-it .t-s { color: oklch(0.50 0.13 145); }         /* string  */
 .use-it .t-c { color: var(--ink); font-weight: 500; } /* component name */
@@ -410,11 +428,29 @@ a { color: inherit; }
 .screen-embed .device lynx-view { width: 100%; height: 100%; display: block; }
 
 /* ─── Catalogue grid ─── */
-.catalogue { margin-bottom: clamp(80px, 10vw, 120px); }
+/* Sits directly under the hero band — no big section title between them. */
+.cat-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.cat-bar-hint {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-mute);
+  white-space: nowrap;
+}
+.cat-bar-hint code { color: var(--accent-3); }
+@media (max-width: 560px) { .cat-bar-hint { display: none; } }
 .cat-filters {
   display: flex;
   gap: 6px;
-  margin-bottom: 26px;
   flex-wrap: wrap;
 }
 .cat-filter {
@@ -447,8 +483,8 @@ a { color: inherit; }
    and typography; hover provides emphasis. */
 .cat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
-  gap: 4px;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 2px;
 }
 /* Reset <button> UA defaults — without this Chrome draws a light border
    in dark mode and a dark one in light mode, which is exactly the
@@ -460,11 +496,11 @@ a { color: inherit; }
   border: 0;
   color: inherit;
   font: inherit;
-  padding: 22px 10px 16px;
+  padding: 14px 8px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   cursor: pointer;
   position: relative;
   border-radius: 6px;
@@ -498,16 +534,16 @@ a { color: inherit; }
 }
 .cell .frame {
   font-family: var(--mono);
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1;
-  height: 34px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--ink);
   white-space: pre;
 }
-.cell.multichar .frame { font-size: 14px; line-height: 1.05; }
+.cell.multichar .frame { font-size: 12px; line-height: 1.05; }
 .cell .name {
   font-family: var(--mono);
   font-size: 10.5px;
@@ -518,14 +554,6 @@ a { color: inherit; }
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.cat-hint {
-  margin-top: 14px;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--ink-mute);
-  letter-spacing: 0.04em;
 }
 
 /* ─── Footnote / colophon ─── */
@@ -613,47 +641,44 @@ a { color: inherit; }
     </div>
   </nav>
 
-  <!-- HERO -->
-  <header class="hero">
-    <h1 class="hero-title">
-      Spinners <em>for</em><br/>agents.
-    </h1>
+  <!-- HERO + CATALOGUE — first screen -->
+  <header id="catalogue" class="first-screen">
 
-    <p class="hero-tagline">
-      55 drop-in loaders for AI chat, tool-use streams, and CLI copilots.
-      Built on <a class="link" href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a>.
-    </p>
+    <div class="hero-band">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          Spinners <em>for</em><br/>agents.
+        </h1>
+        <p class="hero-tagline">
+          55 drop-in loaders for AI chat, tool-use streams, and CLI copilots.
+          Built on <a class="link" href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a>.
+        </p>
+        <div class="hero-cta">
+          <code class="install" data-pkg="npm i lynx-agent-spinners">npm i lynx-agent-spinners</code>
+        </div>
+      </div>
 
-    <div class="hero-cta">
-      <code class="install" data-pkg="npm i lynx-agent-spinners">npm i lynx-agent-spinners</code>
-      <a class="browse" href="#catalogue">Browse all 55</a>
-    </div>
-
-    <div class="use-it">
-      <span class="use-it-label">Use it</span>
-      <pre><span class="t-k">import</span> { DotsSpinner } <span class="t-k">from</span> <span class="t-s">'lynx-agent-spinners/lynx'</span>;
+      <aside class="use-it">
+        <span class="use-it-label">Use it</span>
+        <pre><span class="t-k">import</span> { DotsSpinner } <span class="t-k">from</span> <span class="t-s">'lynx-agent-spinners/lynx'</span>;
 
 &lt;<span class="t-c">DotsSpinner</span> size={<span class="t-n">20</span>} color=<span class="t-s">"currentColor"</span> /&gt;</pre>
-    </div>
-  </header>
-
-  <!-- CATALOGUE -->
-  <section id="catalogue" class="catalogue">
-    <div class="sec-h">
-      <span class="num">01</span>
-      <span class="label">Catalogue · 55 spinners, 4 families</span>
-      <span class="rule"></span>
+        <p class="use-it-note">
+          Each tile below is the actual frame data — the same array the
+          <a class="link" href="#screens">in-context demos</a> read from.
+          <span class="hide-narrow">Tap any cell to copy.</span>
+        </p>
+      </aside>
     </div>
 
-    <h2 class="sec-title">Every glyph, running live. <em>Tap to copy.</em></h2>
-    <p class="sec-lede">
-      Each tile below is the actual frame data — the same array the in-context demos below are reading from. Tap any cell to copy the import + JSX snippet.
-    </p>
+    <div class="cat-bar">
+      <div id="cat-filters" class="cat-filters"></div>
+      <p class="cat-bar-hint">↘ tap any cell to copy <code>&lt;DotsSpinner size={20} /&gt;</code></p>
+    </div>
 
-    <div id="cat-filters" class="cat-filters"></div>
     <div id="cat-grid" class="cat-grid"></div>
-    <p class="cat-hint">↑ tap any cell to copy <code style="color: var(--accent-3);">&lt;DotsSpinner size={20} color="#fff" /&gt;</code></p>
-  </section>
+
+  </header>
 
   <!-- IN CONTEXT — the three signature screens -->
   <section id="screens" class="screens">
