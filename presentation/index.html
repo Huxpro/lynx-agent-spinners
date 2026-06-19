@@ -25,6 +25,9 @@
 <link rel="stylesheet" href="./static/css/client.css" />
 <script type="module" src="./static/js/client.js"></script>
 
+<!-- QR rendering for the "Full app" section. UMD build, no bundler needed. -->
+<script src="https://cdn.jsdelivr.net/npm/qr-creator@1.0.0/dist/qr-creator.min.js"></script>
+
 <!-- Type pairing: editorial serif + a calm sans + a quiet mono -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -317,13 +320,8 @@ a { color: inherit; }
   white-space: pre-wrap;
   word-break: break-word;
 }
-.use-it-note {
-  margin-top: 14px;
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--ink-mute);
-  max-width: 44ch;
-}
+/* install row sits just above the use-it label on the right column */
+.use-it .hero-cta { margin-top: 0; margin-bottom: 18px; }
 @media (max-width: 520px) { .hide-narrow { display: none; } }
 .use-it .t-k { color: var(--accent-3); }              /* keyword */
 .use-it .t-s { color: oklch(0.50 0.13 145); }         /* string  */
@@ -331,36 +329,20 @@ a { color: inherit; }
 .use-it .t-n { color: var(--accent-3); }              /* numeric */
 :root[data-theme="dark"] .use-it .t-s { color: oklch(0.78 0.12 145); }
 
-/* ─── Section header (used by all sections below) ─── */
+/* ─── Section header (used by all sections below). One rule, no
+   ordinal — restraint over template. */
 .sec-h {
-  display: flex;
-  align-items: baseline;
-  gap: 18px;
   padding-top: clamp(20px, 4vw, 36px);
-  margin-bottom: clamp(28px, 4vw, 56px);
+  margin-bottom: clamp(24px, 3vw, 40px);
   border-top: 1px solid var(--line);
-}
-.sec-h .num {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  color: var(--accent);
-  font-weight: 600;
 }
 .sec-h .label {
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.14em;
-  color: var(--ink-mute);
+  color: var(--accent);
   text-transform: uppercase;
-}
-.sec-h .rule {
-  flex: 1;
-  height: 1px;
-  background: var(--ink-fade);
-  margin: 0;
-  align-self: end;
-  margin-bottom: 4px;
+  font-weight: 600;
 }
 .sec-title {
   font-family: var(--serif);
@@ -703,21 +685,16 @@ a { color: inherit; }
           55 drop-in loaders for AI chat, tool-use streams, and CLI copilots.
           Built on <a class="link" href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a>.
         </p>
-        <div class="hero-cta">
-          <code class="install" data-pkg="npm i lynx-agent-spinners">npm i lynx-agent-spinners</code>
-        </div>
       </div>
 
       <aside class="use-it">
+        <div class="hero-cta">
+          <code class="install" data-pkg="npm i lynx-agent-spinners">npm i lynx-agent-spinners</code>
+        </div>
         <span class="use-it-label" data-i18n="hero.useIt">Use it</span>
         <pre><span class="t-k">import</span> { DotsSpinner } <span class="t-k">from</span> <span class="t-s">'lynx-agent-spinners/lynx'</span>;
 
 &lt;<span class="t-c">DotsSpinner</span> size={<span class="t-n">20</span>} color=<span class="t-s">"currentColor"</span> /&gt;</pre>
-        <p class="use-it-note" data-i18n-html="hero.useItNote">
-          Each tile below is the actual frame data, the same array the
-          <a class="link" href="#screens">in-context demos</a> read from.
-          <span class="hide-narrow">Tap any cell to copy.</span>
-        </p>
       </aside>
     </div>
 
@@ -733,9 +710,7 @@ a { color: inherit; }
   <!-- IN CONTEXT: the three signature screens -->
   <section id="screens" class="screens">
     <div class="sec-h">
-      <span class="num">02</span>
       <span class="label" data-i18n="sec.context.label">In context</span>
-      <span class="rule"></span>
     </div>
 
     <p class="sec-note" data-i18n-html="sec.context.note">
@@ -846,7 +821,6 @@ a { color: inherit; }
       'hero.title':       'Spinners <em>for</em><br/>agents.',
       'hero.tagline':     '55 drop-in loaders for AI chat, tool-use streams, and CLI copilots. Built on <a class="link" href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a>.',
       'hero.useIt':       'Use it',
-      'hero.useItNote':   'Each tile below is the actual frame data, the same array the <a class="link" href="#screens">in-context demos</a> read from. <span class="hide-narrow">Tap any cell to copy.</span>',
 
       'cat.hint':         '↘ tap any cell to copy <code>&lt;DotsSpinner size={20} /&gt;</code>',
       'cat.all':          'All',
@@ -894,7 +868,6 @@ a { color: inherit; }
       'hero.title':       '<em>Spinner</em><br/>为 Agent 而生。',
       'hero.tagline':     '55 个开箱即用的加载动画，适用于 AI 聊天、工具调用流和 CLI 助手。基于 <a class="link" href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a> 构建。',
       'hero.useIt':       '用法',
-      'hero.useItNote':   '下面每一格都是真实的帧数据，与<a class="link" href="#screens">应用场景</a>读取的是同一份数组。<span class="hide-narrow">点击任一格即可复制代码。</span>',
 
       'cat.hint':         '↘ 点击任一格复制 <code>&lt;DotsSpinner size={20} /&gt;</code>',
       'cat.all':          '全部',
