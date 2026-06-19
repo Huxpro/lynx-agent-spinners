@@ -22,16 +22,16 @@ const T = {
     note:        'Each step has its own spinner glyph, so the user can tell at a glance whether the agent is searching, reading, computing, or testing.',
   },
   zh: {
-    chrome:    '工具调用 · 5 个并行任务',
+    chrome:    '工具调用 · 5 个并发任务',
     h:         '正在处理你的 PR',
     sub:       '12 步 · 5 进行中 · 4 完成',
-    searchState: '正在搜索 "react server components 19"',
+    searchState: '搜索 "react server components 19"',
     testsState:  'jest src/auth · 38/64 通过',
     readState:   '流式读取 4 个文件 · 2.1 KB / 8.7 KB',
     dbState:     'SELECT users WHERE …  ⏱ 412ms',
-    formatState: '已应用 prettier · 14 个文件',
-    done:        '完成',
-    note:        '每一步都有自己的转圈字符，用户一眼就能看出 Agent 是在搜索、读取、计算还是测试。',
+    formatState: 'prettier 已应用 · 14 个文件',
+    done:        '已完成',
+    note:        '每一步都有自己的符号，用户一眼就能看出 Agent 在搜索、读取、计算还是测试。',
   },
 };
 

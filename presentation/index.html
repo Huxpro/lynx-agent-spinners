@@ -168,14 +168,24 @@ a { color: inherit; }
 :root[lang="en"] .lang-toggle .lang-zh { display: none; }
 :root[lang="zh"] .lang-toggle .lang-en { display: none; }
 :root[lang="zh"] .lang-toggle .lang-zh { display: block; }
-/* Slightly tighter Chinese line-height when the page is in ZH. */
+/* Chinese typography tweaks: tighter line-height, smaller display sizes
+   so the long-form CJK doesn't break headlines mid-phrase. */
 :root[lang="zh"] body { font-feature-settings: normal; }
+:root[lang="zh"] .hero-title {
+  font-size: clamp(40px, 5.4vw, 76px);
+  line-height: 1.05;
+  letter-spacing: 0;
+}
 :root[lang="zh"] .hero-tagline,
 :root[lang="zh"] .sec-note,
 :root[lang="zh"] .screen-copy p,
 :root[lang="zh"] .colophon p,
 :root[lang="zh"] .colophon li {
-  line-height: 1.7;
+  line-height: 1.75;
+}
+:root[lang="zh"] .screen-copy h3 {
+  font-size: clamp(24px, 3.2vw, 36px);
+  line-height: 1.25;
 }
 .nav-links a {
   color: var(--ink-soft);
@@ -866,7 +876,7 @@ a { color: inherit; }
       'foot.stack.view':  '<a href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>, the custom element that mounts a Lynx bundle in any web page',
 
       'foot.run':         'Run it',
-      'foot.run.readme':  '<a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a>: three commands, three demos',
+      'foot.run.readme':  '<a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a>',
       'foot.run.repo':    '<a href="https://github.com/Huxpro/lynx-agent-spinners" target="_blank" rel="noopener">GitHub repository</a>',
       'foot.run.catalog': '<a href="./lynx-app/" target="_blank" rel="noopener">Full catalog Lynx app</a>: standalone <code>&lt;lynx-view&gt;</code> page',
 
@@ -877,14 +887,14 @@ a { color: inherit; }
       'foot.builtWith':  'built with Lynx',
     },
     zh: {
-      'nav.catalogue': '所有动画',
+      'nav.catalogue': '动画库',
       'nav.context':   '应用场景',
       'nav.github':    'github ↗',
 
-      'hero.title':       '为 <em>Agent</em><br/>而生的转圈。',
-      'hero.tagline':     '55 款即取即用的加载动画，适合 AI 聊天、工具调用流和 CLI 助手。基于 <a class="link" href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a> 构建。',
-      'hero.useIt':       '怎么用',
-      'hero.useItNote':   '下面每一格都是真实的帧数据，与<a class="link" href="#screens">实战示例</a>使用的是同一份数组。<span class="hide-narrow">点击任一格可复制代码片段。</span>',
+      'hero.title':       '<em>Spinner</em><br/>为 Agent 而生。',
+      'hero.tagline':     '55 个开箱即用的加载动画，适用于 AI 聊天、工具调用流和 CLI 助手。基于 <a class="link" href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a> 构建。',
+      'hero.useIt':       '用法',
+      'hero.useItNote':   '下面每一格都是真实的帧数据，与<a class="link" href="#screens">应用场景</a>读取的是同一份数组。<span class="hide-narrow">点击任一格即可复制代码。</span>',
 
       'cat.hint':         '↘ 点击任一格复制 <code>&lt;DotsSpinner size={20} /&gt;</code>',
       'cat.all':          '全部',
@@ -894,29 +904,29 @@ a { color: inherit; }
       'cat.emoji':        'Emoji',
 
       'sec.context.label': '应用场景',
-      'sec.context.note':  '下面三个屏幕都是用 <a class="link" href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a> 写的应用，并通过 <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a> 渲染。拖动设备右下角可以改变尺寸：每个嵌入实例都是独立的 Lynx 容器，各自响应自己的尺寸变化。',
+      'sec.context.note':  '下面三个界面都是用 <a class="link" href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a> 实现的 Lynx 应用，通过 <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a> 渲染。拖动设备右下角可以改变尺寸。每个嵌入都是独立的 Lynx 容器，各自响应自己的尺寸变化。',
 
       'screen1.ord': '01 / 草拟回复',
       'screen1.h3':  '模型还在组织语言的时候。',
-      'screen1.p':   '用户刚按下发送键的聊天界面。模型的推理步骤会陆续滚动到下方；<code>dots</code> 用于标题状态，<code>arc</code> 和 <code>breathe</code> 用于子步骤。节奏平和，不打扰。转圈意味着"我还在，我在做事"。',
+      'screen1.p':   '用户刚发出消息的聊天界面。模型的推理过程会逐条流式呈现：<code>dots</code> 用于主状态，<code>arc</code> 和 <code>breathe</code> 用于子步骤。克制、不抢眼。Spinner 的意思是"我还在，正在处理"。',
 
       'screen2.ord': '02 / 工具调用流',
-      'screen2.h3':  '不同的工具配不同的字符，让用户能<em>看懂</em>正在发生什么。',
-      'screen2.p':   '当 Agent 同时在搜索、查询数据库、跑测试、格式化代码，一个全局的转圈什么都没说。给每个工具配一个独特的字符，时间线一眼就能看明白。',
+      'screen2.h3':  '不同工具配不同符号，让用户<em>看懂</em>正在发生什么。',
+      'screen2.p':   '当 Agent 同时在搜索、查询数据库、跑测试、格式化代码，单一的全局 Spinner 几乎没有信息量。给每个工具配一个独特的符号，时间线一眼可读。',
 
       'screen3.ord': '03 / 后台运行',
-      'screen3.h3':  '即使没有终端，也保持终端的味道。',
-      'screen3.p':   '对那些跑得久的 Agent 任务（执行迁移、流式跑测试、等 CI），CLI 的视觉风格能把界面拉回开发者熟悉的心智模型。和他们已经习惯的 <code>ora</code>、<code>spin</code>、<code>cli-spinners</code> 是同一套盲文字符。',
+      'screen3.h3':  '即便没有终端，也保留终端的味道。',
+      'screen3.p':   '对耗时较长的 Agent 任务（执行迁移、跑测试、等 CI），CLI 风格能让界面回到开发者熟悉的语境。和他们已经习惯的 <code>ora</code>、<code>spin</code>、<code>cli-spinners</code> 是同一套盲文字符。',
 
       'foot.stack':       '技术栈',
       'foot.stack.lynx':  '<a href="https://lynxjs.org" target="_blank" rel="noopener">Lynx</a>，跨端 UI 引擎',
-      'foot.stack.react': '<a href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a>，跑在 Lynx 上的 React 框架',
-      'foot.stack.view':  '<a href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>，把 Lynx 包嵌入任意网页的自定义元素',
+      'foot.stack.react': '<a href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a>，Lynx 上的 React 框架',
+      'foot.stack.view':  '<a href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>，把 Lynx 应用嵌入任意网页的自定义元素',
 
       'foot.run':         '本地运行',
-      'foot.run.readme':  '<a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a>：三条命令，三个 Demo',
+      'foot.run.readme':  '<a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a>',
       'foot.run.repo':    '<a href="https://github.com/Huxpro/lynx-agent-spinners" target="_blank" rel="noopener">GitHub 仓库</a>',
-      'foot.run.catalog': '<a href="./lynx-app/" target="_blank" rel="noopener">完整目录 Lynx 应用</a>：独立的 <code>&lt;lynx-view&gt;</code> 页面',
+      'foot.run.catalog': '<a href="./lynx-app/" target="_blank" rel="noopener">完整动画库</a>：独立的 <code>&lt;lynx-view&gt;</code> 页面',
 
       'foot.footnote':     '尾注',
       'foot.footnoteBody': '改编自 <a href="https://github.com/eronred/expo-agent-spinners" target="_blank" rel="noopener">expo-agent-spinners</a>。这次共享内核的移植（哪些保持原样、哪些必须分叉、以及让整个过程波澜不惊的工程方法）写在<a href="./deck/" target="_blank" rel="noopener">这份 deck</a> 里。',
