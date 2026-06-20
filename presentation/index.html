@@ -374,38 +374,36 @@ a { color: inherit; }
 .sec-note a { color: var(--ink-soft); }
 .sec-note a:hover { color: var(--accent); }
 
-/* ─── Full-app section: phone-frame + QR + open-standalone ─── */
+/* ─── Full-app section: phone-frame left + info right
+   No top border, modest bottom padding so it reads as part of the
+   catalogue section above rather than a separate chapter. ─── */
 .full-app-sec {
-  margin-bottom: clamp(96px, 14vw, 180px);
+  margin-bottom: clamp(48px, 8vw, 96px);
+  padding-top: clamp(20px, 3vw, 36px);
 }
 .full-app-stage {
   display: grid;
-  grid-template-columns: 1fr minmax(0, 380px);
-  gap: clamp(32px, 5vw, 72px);
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 88px);
   align-items: center;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 @media (max-width: 880px) {
-  .full-app-stage { grid-template-columns: 1fr; }
-  .full-app-meta { order: 2; }
-  .full-app-device { order: 1; justify-self: center; }
+  .full-app-stage { grid-template-columns: 1fr; gap: 36px; }
+  .full-app-device { justify-self: center; }
 }
-.full-app-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  min-width: 0;
-}
-.full-app-device { min-width: 0; display: flex; justify-content: flex-end; }
-@media (max-width: 880px) { .full-app-device { justify-content: center; } }
+.full-app-device { min-width: 0; display: flex; justify-content: center; }
 .full-app-device .device {
-  --phone-w: 360px;
-  --phone-h: 760px;
+  --phone-w: 380px;
+  --phone-h: 800px;
   position: relative;
   width: var(--phone-w);
   height: var(--phone-h);
-  max-height: 80vh;
-  aspect-ratio: 360 / 760;
-  border-radius: 30px;
+  max-height: 84vh;
+  aspect-ratio: 380 / 800;
+  border-radius: 32px;
   overflow: hidden;
   background: #000;
   border: 4px solid #1a1e28;
@@ -425,6 +423,63 @@ a { color: inherit; }
   height: 100%;
   display: block;
 }
+
+/* Info column. Text + QR + CTAs horizontally centered. */
+.full-app-info {
+  max-width: 460px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.full-app-eyebrow {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.full-app-h1 {
+  font-family: var(--serif);
+  font-weight: 440;
+  font-variation-settings: "opsz" 72, "SOFT" 0;
+  font-size: clamp(32px, 3.6vw, 44px);
+  line-height: 1.06;
+  letter-spacing: -0.016em;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+.full-app-h1 em {
+  font-style: italic;
+  font-weight: 380;
+  font-variation-settings: "opsz" 72, "SOFT" 30;
+  color: var(--accent);
+}
+.full-app-desc {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+  max-width: 40ch;
+}
+.full-app-desc code {
+  font-family: var(--mono);
+  font-size: 0.93em;
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+.full-app-info .qr-card { margin-bottom: 20px; }
+:root[lang="zh"] .full-app-h1 {
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+:root[lang="zh"] .full-app-desc { line-height: 1.75; }
 /* QR card (matches the standalone page) */
 .qr-card {
   display: flex;
@@ -832,25 +887,25 @@ a { color: inherit; }
 
   </header>
 
-  <!-- FULL APP: the whole catalog as a single ReactLynx app -->
+  <!-- FULL APP: the whole catalog, inlined. Phone left, info right.
+       Matches the standalone /lynx-app/ layout but without site chrome. -->
   <section id="full-app" class="full-app-sec">
-    <div class="sec-h">
-      <span class="label" data-i18n="sec.fullApp.label">Full app</span>
-    </div>
-
-    <h2 class="sec-title" data-i18n-html="sec.fullApp.title">
-      The whole app, <em>running here.</em>
-    </h2>
-    <p class="sec-lede" data-i18n-html="sec.fullApp.lede">
-      The same Lynx bundle that ships to iOS and Android, rendered on the right via
-      <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>.
-      Scan the code with
-      <a class="link" href="https://lynxjs.org/guide/start/quick-start.html#prepare-lynx-explorer" target="_blank" rel="noopener">Lynx Explorer</a>
-      to load it natively on your phone, or open the standalone page in a new tab.
-    </p>
-
     <div class="full-app-stage">
-      <div class="full-app-meta">
+      <div class="full-app-device">
+        <div class="device">
+          <lynx-view class="full-app-lv" url="./lynx-app/main.web.bundle"></lynx-view>
+        </div>
+      </div>
+      <div class="full-app-info">
+        <span class="full-app-eyebrow" data-i18n="sec.fullApp.eyebrow">Demo App</span>
+        <h2 class="full-app-h1" data-i18n-html="sec.fullApp.h1">See all spinners live.</h2>
+        <p class="full-app-desc" data-i18n-html="sec.fullApp.desc">
+          The frame on the left runs the web build via
+          <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>.
+          Scan the QR with
+          <a class="link" href="https://lynxjs.org/guide/start/quick-start.html#prepare-lynx-explorer" target="_blank" rel="noopener">Lynx Explorer</a>
+          to load the native bundle on a phone.
+        </p>
         <div class="qr-card">
           <div id="full-app-qr" class="qr-canvas"></div>
           <div class="qr-meta">
@@ -858,17 +913,14 @@ a { color: inherit; }
             <div class="qr-title" data-i18n="sec.fullApp.qrTitle">Scan with Lynx Explorer</div>
             <div class="qr-hint">
               <a href="#" id="full-app-copy" data-i18n="sec.fullApp.copy">Copy bundle URL</a>
+              <span> · </span>
+              <a href="./lynx-app/main.lynx.bundle" download="main.lynx.bundle" id="full-app-download" data-i18n="sec.fullApp.download">download bundle</a>
             </div>
           </div>
         </div>
         <div class="full-app-cta">
-          <a class="cta" href="./lynx-app/" target="_blank" rel="noopener" data-i18n="sec.fullApp.openStandalone">Open standalone ↗</a>
-          <a class="cta subtle" href="./lynx-app/main.lynx.bundle?fullscreen=true" id="full-app-direct" data-i18n="sec.fullApp.direct">direct .lynx.bundle</a>
-        </div>
-      </div>
-      <div class="full-app-device">
-        <div class="device">
-          <lynx-view class="full-app-lv" url="./lynx-app/main.web.bundle"></lynx-view>
+          <a class="cta" href="./lynx-app/" target="_blank" rel="noopener" data-i18n="sec.fullApp.openStandalone">open standalone ↗</a>
+          <a class="cta subtle" href="./deck/" target="_blank" rel="noopener" data-i18n="sec.fullApp.deck">read the deck ↗</a>
         </div>
       </div>
     </div>
@@ -960,7 +1012,7 @@ a { color: inherit; }
       <ul>
         <li data-i18n-html="foot.run.readme"><a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a>: three commands, three demos</li>
         <li data-i18n-html="foot.run.repo"><a href="https://github.com/Huxpro/lynx-agent-spinners" target="_blank" rel="noopener">GitHub repository</a></li>
-        <li data-i18n-html="foot.run.catalog"><a href="./lynx-app/" target="_blank" rel="noopener">Full catalog Lynx app</a>: standalone <code>&lt;lynx-view&gt;</code> page</li>
+        <li data-i18n-html="foot.run.catalog"><a href="#full-app">Full catalog Lynx app</a>: above, embedded via <code>&lt;lynx-view&gt;</code></li>
       </ul>
 
       <h4 style="margin-top: 30px;" data-i18n="foot.footnote">Footnote</h4>
@@ -996,15 +1048,16 @@ a { color: inherit; }
       'cat.arrows':       'Arrows',
       'cat.emoji':        'Emoji',
 
-      'sec.fullApp.label':         'Full app',
-      'sec.fullApp.title':         'The whole app, <em>running here.</em>',
-      'sec.fullApp.lede':          'The same Lynx bundle that ships to iOS and Android, rendered on the right via <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>. Scan the code with <a class="link" href="https://lynxjs.org/guide/start/quick-start.html#prepare-lynx-explorer" target="_blank" rel="noopener">Lynx Explorer</a> to load it natively on your phone, or open the standalone page in a new tab.',
-      'sec.fullApp.qrLabel':       'Open natively',
-      'sec.fullApp.qrTitle':       'Scan with Lynx Explorer',
-      'sec.fullApp.copy':          'Copy bundle URL',
-      'sec.fullApp.copied':        '✓ copied',
-      'sec.fullApp.openStandalone':'Open standalone ↗',
-      'sec.fullApp.direct':        'direct .lynx.bundle',
+      'sec.fullApp.eyebrow':        'Demo App',
+      'sec.fullApp.h1':             'See all spinners live.',
+      'sec.fullApp.desc':           'The frame on the left runs the web build via <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>. Scan the QR with <a class="link" href="https://lynxjs.org/guide/start/quick-start.html#prepare-lynx-explorer" target="_blank" rel="noopener">Lynx Explorer</a> to load the native bundle on a phone.',
+      'sec.fullApp.qrLabel':        'Open natively',
+      'sec.fullApp.qrTitle':        'Scan with Lynx Explorer',
+      'sec.fullApp.copy':           'Copy bundle URL',
+      'sec.fullApp.copied':         '✓ copied',
+      'sec.fullApp.download':       'download bundle',
+      'sec.fullApp.openStandalone': 'open standalone ↗',
+      'sec.fullApp.deck':           'read the deck ↗',
 
       'sec.context.label': 'In context',
       'sec.context.note':  'Three screens, each a <a class="link" href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a> app rendered through <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>. Drag the bottom-right corner of any device to resize. Each embed is its own independent Lynx container and reflows independently.',
@@ -1029,7 +1082,7 @@ a { color: inherit; }
       'foot.run':         'Run it',
       'foot.run.readme':  '<a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a>',
       'foot.run.repo':    '<a href="https://github.com/Huxpro/lynx-agent-spinners" target="_blank" rel="noopener">GitHub repository</a>',
-      'foot.run.catalog': '<a href="./lynx-app/" target="_blank" rel="noopener">Full catalog Lynx app</a>: standalone <code>&lt;lynx-view&gt;</code> page',
+      'foot.run.catalog': '<a href="#full-app">Full catalog Lynx app</a>: above, embedded via <code>&lt;lynx-view&gt;</code>',
 
       'foot.footnote':     'Footnote',
       'foot.footnoteBody': 'Originally adapted from <a href="https://github.com/eronred/expo-agent-spinners" target="_blank" rel="noopener">expo-agent-spinners</a>. The shared-core port (what stayed identical, what had to fork, and the harness around the agent that made the work boring) is written up in <a href="./deck/" target="_blank" rel="noopener">the deck</a>.',
@@ -1053,15 +1106,16 @@ a { color: inherit; }
       'cat.arrows':       '箭头',
       'cat.emoji':        'Emoji',
 
-      'sec.fullApp.label':         '完整 App',
-      'sec.fullApp.title':         '整个 app，<em>就在这里跑。</em>',
-      'sec.fullApp.lede':          '同一份发往 iOS / Android 的 Lynx bundle，通过 <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a> 渲染在右侧设备框里。用 <a class="link" href="https://lynxjs.org/guide/start/quick-start.html#prepare-lynx-explorer" target="_blank" rel="noopener">Lynx Explorer</a> 扫码即可在手机上原生加载，也可以在新标签页打开独立页面。',
-      'sec.fullApp.qrLabel':       '原生打开',
-      'sec.fullApp.qrTitle':       '用 Lynx Explorer 扫码',
-      'sec.fullApp.copy':          '复制 bundle URL',
-      'sec.fullApp.copied':        '✓ 已复制',
-      'sec.fullApp.openStandalone':'打开独立页面 ↗',
-      'sec.fullApp.direct':        '直接 .lynx.bundle',
+      'sec.fullApp.eyebrow':        'Demo App',
+      'sec.fullApp.h1':             '所有 spinner，实时呈现。',
+      'sec.fullApp.desc':           '左侧设备框跑的是 web 构建，通过 <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a> 渲染。用 <a class="link" href="https://lynxjs.org/guide/start/quick-start.html#prepare-lynx-explorer" target="_blank" rel="noopener">Lynx Explorer</a> 扫码即可在手机上加载原生 bundle。',
+      'sec.fullApp.qrLabel':        '原生打开',
+      'sec.fullApp.qrTitle':        '用 Lynx Explorer 扫码',
+      'sec.fullApp.copy':           '复制 bundle URL',
+      'sec.fullApp.copied':         '✓ 已复制',
+      'sec.fullApp.download':       '下载 bundle',
+      'sec.fullApp.openStandalone': '全屏打开 ↗',
+      'sec.fullApp.deck':           '看 deck ↗',
 
       'sec.context.label': '应用场景',
       'sec.context.note':  '下面三个界面都是用 <a class="link" href="https://lynxjs.org/next/react/introduction" target="_blank" rel="noopener">ReactLynx</a> 实现的 Lynx 应用，通过 <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a> 渲染。拖动设备右下角可以改变尺寸。每个嵌入都是独立的 Lynx 容器，各自响应自己的尺寸变化。',
@@ -1086,7 +1140,7 @@ a { color: inherit; }
       'foot.run':         '本地运行',
       'foot.run.readme':  '<a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a>',
       'foot.run.repo':    '<a href="https://github.com/Huxpro/lynx-agent-spinners" target="_blank" rel="noopener">GitHub 仓库</a>',
-      'foot.run.catalog': '<a href="./lynx-app/" target="_blank" rel="noopener">完整 Spinner 应用</a>：独立的 <code>&lt;lynx-view&gt;</code> 页面',
+      'foot.run.catalog': '<a href="#full-app">完整 Spinner 应用</a>：上方，通过 <code>&lt;lynx-view&gt;</code> 嵌入',
 
       'foot.footnote':     '尾注',
       'foot.footnoteBody': '改编自 <a href="https://github.com/eronred/expo-agent-spinners" target="_blank" rel="noopener">expo-agent-spinners</a>。这次共享内核的移植（哪些保持原样、哪些必须分叉、以及让整个过程波澜不惊的工程方法）写在<a href="./deck/" target="_blank" rel="noopener">这份 deck</a> 里。',
