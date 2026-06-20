@@ -204,7 +204,7 @@ a { color: inherit; }
 
 /* ─── First-screen: hero + catalogue grid in one viewport ─── */
 .first-screen {
-  margin-bottom: clamp(96px, 14vw, 180px);
+  margin-bottom: clamp(24px, 3vw, 40px);
 }
 /* Two-column hero band: title block left, use-it snippet right. */
 .hero-band {
@@ -369,7 +369,7 @@ a { color: inherit; }
   color: var(--ink-mute);
   line-height: 1.55;
   margin-top: 4px;
-  margin-bottom: clamp(40px, 6vw, 72px);
+  margin-bottom: clamp(8px, 1.4vw, 16px);
 }
 .sec-note a { color: var(--ink-soft); }
 .sec-note a:hover { color: var(--accent); }
@@ -549,17 +549,17 @@ a { color: inherit; }
 
 /* ─── Screens (the in-context demos) ─── */
 .screens {
-  margin-bottom: clamp(96px, 14vw, 180px);
+  margin-bottom: clamp(48px, 7vw, 96px);
 }
 .screen {
   display: grid;
   grid-template-columns: 1fr 1.05fr;
   gap: clamp(28px, 4vw, 72px);
-  align-items: center;
-  padding: clamp(40px, 5vw, 72px) 0;
+  align-items: start;
+  padding: clamp(20px, 3vw, 40px) 0;
   border-bottom: 1px solid var(--line);
 }
-.screen:last-child { border-bottom: none; padding-bottom: clamp(20px, 3vw, 36px); }
+.screen:last-child { border-bottom: none; padding-bottom: clamp(16px, 2vw, 28px); }
 @media (max-width: 780px) {
   .screen { grid-template-columns: 1fr; }
 }
