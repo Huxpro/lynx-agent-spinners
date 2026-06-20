@@ -374,37 +374,38 @@ a { color: inherit; }
 .sec-note a { color: var(--ink-soft); }
 .sec-note a:hover { color: var(--accent); }
 
-/* ─── Full-app section: phone-frame left + info right
-   No top border, modest bottom padding so it reads as part of the
-   catalogue section above rather than a separate chapter. ─── */
+/* ─── Full-app section: phone-frame left + info right.
+   Tight vertical rhythm. The phone's bottom ~1/3 is clipped behind
+   the next section's top border — the catalogue *feels* like it
+   continues out of frame, no scrollable continuation needed. ─── */
 .full-app-sec {
-  margin-bottom: clamp(48px, 8vw, 96px);
-  padding-top: clamp(20px, 3vw, 36px);
+  margin-bottom: 0;
+  padding-top: clamp(8px, 1.4vw, 16px);
+  padding-bottom: 0;
 }
 .full-app-stage {
-  display: grid;
-  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
-  gap: clamp(40px, 6vw, 88px);
-  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(36px, 5vw, 72px);
+  align-items: flex-start;   /* tops aligned: info starts at top, no dead space */
   justify-content: center;
-  max-width: 1000px;
-  margin: 0 auto;
 }
-@media (max-width: 880px) {
-  .full-app-stage { grid-template-columns: 1fr; gap: 36px; }
-  .full-app-device { justify-self: center; }
-}
-.full-app-device { min-width: 0; display: flex; justify-content: center; }
-.full-app-device .device {
-  --phone-w: 380px;
-  --phone-h: 800px;
+/* Wrapper is the *visible* slice. The .device inside is its natural
+   ~800px; the wrapper clips it at ~2/3 so the bottom hangs behind
+   the next section's border. */
+.full-app-device {
   position: relative;
-  width: var(--phone-w);
-  height: var(--phone-h);
-  max-height: 84vh;
-  aspect-ratio: 380 / 800;
-  border-radius: 32px;
+  width: 380px;
+  height: clamp(380px, 44vw, 540px);
   overflow: hidden;
+}
+.full-app-device .device {
+  position: absolute;
+  inset: 0 0 auto 0;
+  width: 380px;
+  height: 800px;
+  border-radius: 32px;
+  overflow: hidden;          /* keep lynx-view inside the rounded bezel */
   background: #000;
   border: 4px solid #1a1e28;
   box-shadow: 0 30px 70px -28px rgba(20, 17, 14, 0.30),
@@ -423,15 +424,21 @@ a { color: inherit; }
   height: 100%;
   display: block;
 }
+@media (max-width: 880px) {
+  .full-app-stage { align-items: center; flex-direction: column; }
+  .full-app-device { order: 2; }
+  .full-app-info { order: 1; max-width: 100%; }
+}
 
-/* Info column. Text + QR + CTAs horizontally centered. */
+/* Info column. Text left-aligned (normal reading flow); the whole
+   stage (phone + info) is what's centered on the page, via the
+   max-width + margin: 0 auto on .full-app-stage. */
+/* Tight info column. No description prose — eyebrow + title + QR card
+   + CTAs. The phone on the left already shows what the demo is. */
 .full-app-info {
-  max-width: 460px;
+  max-width: 380px;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  padding-top: 12px;
 }
 .full-app-eyebrow {
   display: inline-block;
@@ -440,46 +447,32 @@ a { color: inherit; }
   letter-spacing: 0.16em;
   color: var(--accent);
   text-transform: uppercase;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 .full-app-h1 {
   font-family: var(--serif);
   font-weight: 440;
-  font-variation-settings: "opsz" 72, "SOFT" 0;
-  font-size: clamp(32px, 3.6vw, 44px);
-  line-height: 1.06;
-  letter-spacing: -0.016em;
+  font-variation-settings: "opsz" 60, "SOFT" 0;
+  font-size: clamp(26px, 2.6vw, 34px);
+  line-height: 1.1;
+  letter-spacing: -0.014em;
   color: var(--ink);
-  margin-bottom: 18px;
+  margin-bottom: 22px;
+  max-width: 14ch;
 }
 .full-app-h1 em {
   font-style: italic;
   font-weight: 380;
-  font-variation-settings: "opsz" 72, "SOFT" 30;
+  font-variation-settings: "opsz" 60, "SOFT" 30;
   color: var(--accent);
 }
-.full-app-desc {
-  font-size: 15.5px;
-  line-height: 1.6;
-  color: var(--ink-soft);
-  margin-bottom: 24px;
-  max-width: 40ch;
-}
-.full-app-desc code {
-  font-family: var(--mono);
-  font-size: 0.93em;
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: 1px 6px;
-  border-radius: 4px;
-}
-.full-app-info .qr-card { margin-bottom: 20px; }
+.full-app-info .qr-card { margin-bottom: 18px; }
 :root[lang="zh"] .full-app-h1 {
-  font-size: clamp(24px, 3vw, 36px);
-  line-height: 1.25;
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.3;
   letter-spacing: 0;
+  max-width: 14ch;
 }
-:root[lang="zh"] .full-app-desc { line-height: 1.75; }
 /* QR card (matches the standalone page) */
 .qr-card {
   display: flex;
@@ -899,13 +892,6 @@ a { color: inherit; }
       <div class="full-app-info">
         <span class="full-app-eyebrow" data-i18n="sec.fullApp.eyebrow">Demo App</span>
         <h2 class="full-app-h1" data-i18n-html="sec.fullApp.h1">See all spinners live.</h2>
-        <p class="full-app-desc" data-i18n-html="sec.fullApp.desc">
-          The frame on the left runs the web build via
-          <a class="link" href="https://lynxjs.org/next/guide/start/integrate-with-existing-apps?platform=web" target="_blank" rel="noopener"><code>&lt;lynx-view&gt;</code></a>.
-          Scan the QR with
-          <a class="link" href="https://lynxjs.org/guide/start/quick-start.html#prepare-lynx-explorer" target="_blank" rel="noopener">Lynx Explorer</a>
-          to load the native bundle on a phone.
-        </p>
         <div class="qr-card">
           <div id="full-app-qr" class="qr-canvas"></div>
           <div class="qr-meta">
@@ -1012,7 +998,6 @@ a { color: inherit; }
       <ul>
         <li data-i18n-html="foot.run.readme"><a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a>: three commands, three demos</li>
         <li data-i18n-html="foot.run.repo"><a href="https://github.com/Huxpro/lynx-agent-spinners" target="_blank" rel="noopener">GitHub repository</a></li>
-        <li data-i18n-html="foot.run.catalog"><a href="#full-app">Full catalog Lynx app</a>: above, embedded via <code>&lt;lynx-view&gt;</code></li>
       </ul>
 
       <h4 style="margin-top: 30px;" data-i18n="foot.footnote">Footnote</h4>
@@ -1082,7 +1067,6 @@ a { color: inherit; }
       'foot.run':         'Run it',
       'foot.run.readme':  '<a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a>',
       'foot.run.repo':    '<a href="https://github.com/Huxpro/lynx-agent-spinners" target="_blank" rel="noopener">GitHub repository</a>',
-      'foot.run.catalog': '<a href="#full-app">Full catalog Lynx app</a>: above, embedded via <code>&lt;lynx-view&gt;</code>',
 
       'foot.footnote':     'Footnote',
       'foot.footnoteBody': 'Originally adapted from <a href="https://github.com/eronred/expo-agent-spinners" target="_blank" rel="noopener">expo-agent-spinners</a>. The shared-core port (what stayed identical, what had to fork, and the harness around the agent that made the work boring) is written up in <a href="./deck/" target="_blank" rel="noopener">the deck</a>.',
@@ -1140,7 +1124,6 @@ a { color: inherit; }
       'foot.run':         '本地运行',
       'foot.run.readme':  '<a href="https://github.com/Huxpro/lynx-agent-spinners#readme" target="_blank" rel="noopener">README</a>',
       'foot.run.repo':    '<a href="https://github.com/Huxpro/lynx-agent-spinners" target="_blank" rel="noopener">GitHub 仓库</a>',
-      'foot.run.catalog': '<a href="#full-app">完整 Spinner 应用</a>：上方，通过 <code>&lt;lynx-view&gt;</code> 嵌入',
 
       'foot.footnote':     '尾注',
       'foot.footnoteBody': '改编自 <a href="https://github.com/eronred/expo-agent-spinners" target="_blank" rel="noopener">expo-agent-spinners</a>。这次共享内核的移植（哪些保持原样、哪些必须分叉、以及让整个过程波澜不惊的工程方法）写在<a href="./deck/" target="_blank" rel="noopener">这份 deck</a> 里。',
