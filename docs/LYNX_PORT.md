@@ -42,13 +42,19 @@ src/
 │   ├── Spinner.tsx              # Generic <View><Text> renderer (~20 lines)
 │   └── index.ts                 # Named exports: DotsSpinner, MoonSpinner, etc.
 │
-└── lynx/                        # LAYER 3b · Platform: Lynx
-    ├── Spinner.tsx              # Generic <view><text> renderer (~20 lines)
-    └── index.ts                 # Named exports: DotsSpinner, MoonSpinner, etc.
+├── lynx/                        # LAYER 3b · Platform: ReactLynx
+│   ├── Spinner.tsx              # Generic <view><text> renderer (~20 lines)
+│   └── index.ts                 # Named exports: DotsSpinner, MoonSpinner, etc.
+│
+└── vue/                         # LAYER 3c · Platform: Vue Lynx
+    ├── useSpinnerFrame.ts       # Vue composable (ref/computed/onUnmounted)
+    ├── Spinner.vue              # Generic <view><text> SFC renderer
+    └── index.ts                 # Spinner + data re-export (data-driven, not 55 wrappers)
 
 apps/
 ├── expo/                        # Demo app (Expo/RN); uses src/react-native/
-└── lynx/                        # Demo app (ReactLynx); uses src/lynx/
+├── lynx/                        # Demo app (ReactLynx); uses src/lynx/
+└── vue-lynx/                    # Demo app (Vue Lynx); uses src/vue/
 ```
 
 ### Layer 1: Spinner Data (`src/data/`) · FULLY SHARED
@@ -189,17 +195,69 @@ export function DotsSpinner(props: Omit<Parameters<typeof Spinner>[0], 'definiti
 
 ---
 
+## Vue Lynx (Layer 3c)
+
+Vue Lynx (<https://vue.lynxjs.org>) runs the same dual-thread Lynx runtime, but
+the component model is Vue 3 (Single-File Components + Composition API) instead
+of React. It reuses **Layer 1 (`src/data/`) unchanged** — the single source of
+truth is untouched. Only the rendering + animation layer forks into `src/vue/`.
+
+**Why the hook forks instead of aliasing.** ReactLynx shares the hook with RN by
+aliasing `react` → `@lynx-js/react` (identical `useState`/`useEffect` API). Vue
+has no equivalent: its reactivity primitives (`ref`/`computed`/lifecycle) differ
+from React's. So `src/vue/useSpinnerFrame.ts` is a Vue composable that preserves
+the same contract (frames + interval in, current frame out):
+
+```ts
+// src/vue/useSpinnerFrame.ts
+import { ref, computed, onUnmounted, type ComputedRef } from 'vue-lynx';
+
+export function useSpinnerFrame(frames: readonly string[], interval: number): ComputedRef<string> {
+  const index = ref(0);
+  const id = setInterval(() => { index.value = (index.value + 1) % frames.length; }, interval);
+  onUnmounted(() => clearInterval(id));
+  return computed(() => frames[index.value]);
+}
+```
+
+**Renderer is an SFC** (`src/vue/Spinner.vue`): `<view>`/`<text>` elements, the
+same `${size}px` CSS-string style values as ReactLynx, driven by the composable.
+
+**Surface differs from RN/ReactLynx.** Those export 55 named wrappers because
+JSX makes thin wrappers cheap. Vue's idiomatic surface is data-driven, so
+`src/vue/index.ts` exports the single `Spinner` SFC plus the data registry;
+consumers render `<Spinner :definition="dots" />`.
+
+| Aspect          | ReactLynx                         | Vue Lynx                              |
+| --------------- | --------------------------------- | ------------------------------------- |
+| Component model | `.tsx` + JSX                      | `.vue` SFC + `<template>`             |
+| Reactivity      | `useState` / `useEffect`          | `ref` / `computed` / `onUnmounted`    |
+| Class binding   | `className={...}`                 | `:class="[...]"`                      |
+| Tap handling    | `bindtap={fn}`                    | `@tap="fn"`                           |
+| Bool attrs      | `scrollbar-enable={false}`        | `:scrollbar-enable="false"`           |
+| Entry           | `root.render(<App/>)`             | `createApp(App).mount()`              |
+| Build plugin    | `pluginReactLynx()`               | `pluginVueLynx()` (from `vue-lynx/plugin`) |
+
+**Build wiring.** `apps/vue-lynx/lynx.config.ts` uses `pluginVueLynx` and emits
+both `lynx` and `web` bundles. Because the shared `src/vue/` files live at the
+repo root (outside the app's `node_modules`), bare `vue`/`vue-lynx` imports from
+there are resolved by adding the app's `node_modules` to the Rspack resolver's
+search paths — the Vue analogue of the ReactLynx `react` alias.
+
+---
+
 ## Demo Apps
 
 Demo apps are fully platform-specific. They share the same conceptual structure (grid of spinners, category tabs) but use different elements, events, and scroll mechanics.
 
-| Concept         | Expo Demo                   | Lynx Demo                           |
-| --------------- | --------------------------- | ------------------------------------ |
-| Root            | `SafeAreaProvider`          | `<page>`                             |
-| Scrolling       | `<ScrollView>`              | `<scroll-view>`                      |
-| Tap handling    | `<Pressable onPress={...}>` | `<view bindtap={...}>`               |
-| Status bar      | `<StatusBar />`             | Handled by host app                  |
-| Styling         | `StyleSheet.create()`       | CSS/SCSS files + `className`         |
+| Concept         | Expo Demo                   | ReactLynx Demo              | Vue Lynx Demo                |
+| --------------- | --------------------------- | --------------------------- | ---------------------------- |
+| Root            | `SafeAreaProvider`          | `<page>`                    | `<page>`                     |
+| Scrolling       | `<ScrollView>`              | `<scroll-view>`             | `<scroll-view>`              |
+| Tap handling    | `<Pressable onPress={...}>` | `<view bindtap={...}>`      | `<view @tap="...">`          |
+| List rendering  | `.map(...)`                 | `.map(...)`                 | `v-for`                      |
+| Status bar      | `<StatusBar />`             | Handled by host app         | Handled by host app          |
+| Styling         | `StyleSheet.create()`       | CSS/SCSS + `className`      | CSS + `class` / `:class`     |
 
 ---
 
@@ -261,3 +319,6 @@ Each step should be a self-contained commit that passes build verification.
 | Intentional fork at rendering layer | Element names and style formats are fundamentally incompatible |
 | Single Spinner component per platform | Avoids 54 nearly-identical component files; data-driven instead |
 | CSS/SCSS for Lynx styling | Matches Lynx conventions; avoids fighting the platform |
+| Vue hook forks (composable), not aliased | Vue reactivity (`ref`/`computed`) has no React-equivalent to alias; only the data layer is reused verbatim |
+| Vue surface is data-driven (no 55 wrappers) | JSX makes thin wrappers cheap; `.vue` SFCs don't. Idiomatic Vue is `<Spinner :definition>` |
+| Resolver `modules` for shared Vue imports | Repo-root `src/vue/` can't reach the app's `node_modules`; the Vue analogue of the ReactLynx `react` alias |

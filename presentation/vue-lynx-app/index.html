@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Vue Lynx Agent Spinners · full catalog</title>
+<meta name="description" content="The full 55-spinner catalog as a single Vue Lynx app, rendered fullscreen via Lynx for Web." />
+
+<!-- COOP/COEP shim for static hosts that can't set headers (e.g. GitHub Pages). -->
+<script src="../coi-serviceworker.js"></script>
+
+<!-- web-core: brings the <lynx-view> custom element + web-elements.
+     Shared runtime at /static/ (synced from the catalog app). -->
+<link rel="stylesheet" href="../static/css/client.css" />
+<script type="module" src="../static/js/client.js"></script>
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    height: 100%;
+    overflow: hidden;
+  }
+  lynx-view {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+</style>
+</head>
+<body>
+  <lynx-view url="./main.web.bundle"></lynx-view>
+</body>
+</html>
