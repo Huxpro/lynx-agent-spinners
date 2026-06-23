@@ -24,7 +24,7 @@
     "vue-lynx:build": "pnpm --filter ./apps/vue-lynx build",
     "vue-lynx:preview": "pnpm --filter ./apps/vue-lynx preview",
     "screens:build": "pnpm --filter ./apps/screens build",
-    "preso:build": "pnpm lynx:build && pnpm screens:build && node presentation/extract-spinners.mjs && bash presentation/sync-lynx-app.sh",
+    "preso:build": "pnpm lynx:build && pnpm vue-lynx:build && pnpm screens:build && node presentation/extract-spinners.mjs && bash presentation/sync-lynx-app.sh",
     "preso": "pnpm preso:build && bash presentation/serve.sh"
   },
   "dependencies": {

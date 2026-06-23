@@ -8,7 +8,9 @@ on:
       - 'src/data/**'
       - 'src/lynx/**'
       - 'src/hooks/**'
+      - 'src/vue/**'
       - 'apps/lynx/**'
+      - 'apps/vue-lynx/**'
       - 'apps/screens/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
@@ -36,13 +38,17 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install (lynx + screens workspaces)
+      - name: Install (lynx + vue-lynx + screens workspaces)
         run: |
           pnpm --filter ./apps/lynx install --no-frozen-lockfile
+          pnpm --filter ./apps/vue-lynx install --no-frozen-lockfile
           pnpm --filter ./apps/screens install --no-frozen-lockfile
 
       - name: Build catalog Lynx app (lynx + web bundles)
         run: pnpm --filter ./apps/lynx build
+
+      - name: Build Vue Lynx catalog app (lynx + web bundles)
+        run: pnpm --filter ./apps/vue-lynx build
 
       - name: Build signature-screens app (web bundle)
         run: pnpm --filter ./apps/screens build
