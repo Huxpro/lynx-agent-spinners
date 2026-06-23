@@ -1,0 +1,117 @@
+/* App-wide font stack. Lynx doesn't load web fonts the way the host
+   page does, so we fall through to system fonts. The stack matches the
+   landing page's --sans (so IBM Plex Sans is picked up when the bundle
+   is rendered via <lynx-view> inside that page). */
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: #0a0a0a;
+  height: 100vh;
+  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.header {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 16px;
+  padding-top: 48px;
+  gap: 2px;
+}
+
+.headerSubtitle {
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.tabBarContainer {
+  height: 44px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.tabBar {
+  display: flex;
+  flex-direction: row;
+  padding-left: 16px;
+  padding-right: 16px;
+  gap: 6px;
+  align-items: center;
+  height: 44px;
+}
+
+.tab {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.tabActive {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.tabText {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.tabTextActive {
+  color: #fff;
+}
+
+.content {
+  flex: 1;
+  height: 0;
+}
+
+.contentInner {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cell {
+  width: 20%;
+  flex-grow: 1;
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  padding-left: 8px;
+  padding-right: 8px;
+  align-items: center;
+  gap: 12px;
+  border: 0.5px solid rgba(255, 255, 255, 0.07);
+}
+
+.spinnerArea {
+  height: 40px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.cellName {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 10px;
+  font-weight: 500;
+  text-align: center;
+  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
